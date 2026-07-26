@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Control Tower — TRANSFLOW</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%230C161B'/%3E%3Cpath d='M4 8h11l5 4-5 4H4z' fill='%23FF5A1F'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/tokens.css">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/shell.css">
+<link rel="stylesheet" href="/assets/css/pages/dashboard.css">
+</head>
+<body data-active="dashboard">
+<main id="page">
+
+  <section class="ph">
+    <p class="kicker" data-reveal>CONTROL TOWER · <span id="todayStr">—</span></p>
+    <h1 class="display g-h1" data-reveal style="--d:.05s"><span id="greet">GOOD MORNING</span>, <em>HARISH</em></h1>
+    <p class="ph-sub" data-reveal style="--d:.1s">Al Noor Transport LLC · 8 vehicles on the network · <b class="bad">3 invoices overdue</b> · next RTA renewal in 14 days</p>
+  </section>
+
+  <div class="ticker tk" id="opsTick" data-reveal style="--d:.12s"></div>
+
+  <section class="kpis">
+    <div class="kpi" data-reveal style="--d:.05s">
+      <span class="kpi-l mono">REVENUE · JUL MTD</span>
+      <span class="kpi-v display"><span data-count data-to="448900" data-fmt="aed">AED 0</span></span>
+      <span class="chip up">▲ 12% VS JUN PACE</span>
+      <span class="kpi-sp" id="sparkRev"></span>
+    </div>
+    <div class="kpi" data-reveal style="--d:.1s">
+      <span class="kpi-l mono">COSTS · JUL MTD</span>
+      <span class="kpi-v display"><span data-count data-to="287600" data-fmt="aed">AED 0</span></span>
+      <span class="chip up">▼ 4% VS JUN</span>
+      <span class="kpi-sp" id="sparkCost"></span>
+    </div>
+    <div class="kpi" data-reveal style="--d:.15s">
+      <span class="kpi-l mono">GROSS PROFIT · JUL</span>
+      <span class="kpi-v display"><span data-count data-to="161300" data-fmt="aed">AED 0</span></span>
+      <span class="chip up">35.9% MARGIN</span>
+    </div>
+    <div class="kpi kpi-alert" data-reveal style="--d:.2s">
+      <span class="kpi-l mono">RECEIVABLES OUTSTANDING</span>
+      <span class="kpi-v display"><span data-count data-to="406350" data-fmt="aed">AED 0</span></span>
+      <span class="chip dn">2 OVERDUE · OLDEST 97D</span>
+    </div>
+    <div class="kpi" data-reveal style="--d:.25s">
+      <span class="kpi-l mono">FLEET ON ROAD</span>
+      <span class="kpi-v display"><span data-count data-to="6" data-fmt="num">0</span><span class="of">/8</span></span>
+      <span class="chip warn">2 IN WORKSHOP</span>
+    </div>
+  </section>
+
+  <section class="duo">
+    <article class="card" data-idx="01" data-reveal>
+      <header class="card-h">
+        <div><p class="kicker">PERFORMANCE</p><h3>REVENUE VS COST — 6 MONTHS</h3></div>
+        <div class="legend" style="margin-left:auto">
+          <span><i style="background:var(--teal)"></i>REVENUE</span>
+          <span><i style="background:var(--acc)"></i>COST</span>
+        </div>
+      </header>
+      <div class="card-b" id="revCost"></div>
+    </article>
+
+    <article class="card" data-idx="02" data-reveal style="--d:.08s">
+      <header class="card-h"><div><p class="kicker">CASH</p><h3>RECEIVABLES AGING</h3></div></header>
+      <div class="card-b">
+        <div class="aging-total">
+          <span class="mono">TOTAL OUTSTANDING</span>
+          <b class="display"><span data-count data-to="406350" data-fmt="aed">AED 0</span></b>
+        </div>
+        <div id="agingBars"></div>
+        <p class="alert-note mono">⚠ OLDEST: MASAFI TRADING — 97 DAYS · AED 29,850</p>
+      </div>
+    </article>
+  </section>
+
+  <section class="duo flip">
+    <article class="card" data-idx="03" data-reveal>
+      <header class="card-h"><div><p class="kicker">SALES</p><h3>TOP CLIENTS · YTD</h3></div></header>
+      <div class="card-b" id="topClients"></div>
+    </article>
+
+    <article class="card" data-idx="04" data-reveal style="--d:.08s">
+      <header class="card-h"><div><p class="kicker">FLEET</p><h3>VEHICLE STATUS BOARD</h3></div></header>
+      <div class="card-b pad0">
+        <table class="tbl">
+          <thead><tr><th>PLATE</th><th>DRIVER</th><th>ROUTE / NOTE</th><th class="r">STATUS</th></tr></thead>
+          <tbody id="fleetBody"></tbody>
+        </table>
+      </div>
+    </article>
+  </section>
+
+  <article class="card" data-idx="05" data-reveal>
+    <header class="card-h">
+      <div><p class="kicker">BILLING</p><h3>RECENT INVOICES</h3></div>
+      <button class="btn btn-acc" id="oneClick" style="margin-left:auto">⚡ ONE-CLICK INVOICE</button>
+    </header>
+    <div class="card-b pad0">
+      <table class="tbl">
+        <thead><tr><th>INVOICE</th><th>CLIENT</th><th>RAISED</th><th>DUE</th><th class="r">AMOUNT</th><th class="r">STATUS</th></tr></thead>
+        <tbody id="invBody"></tbody>
+      </table>
+    </div>
+  </article>
+
+</main>
+
+<script src="/assets/js/data.js"></script>
+<script src="/assets/js/fmt.js"></script>
+<script src="/assets/js/fx.js"></script>
+<script src="/assets/js/charts.js"></script>
+<script src="/assets/js/auth.js"></script>
+<script src="/assets/js/shell.js"></script>
+<script>
+(function(){
+  /* greeting + date in Dubai time */
+  const dubaiH = +new Intl.DateTimeFormat('en-GB',{ timeZone:'Asia/Dubai', hour:'numeric', hour12:false }).format(new Date());
+  document.getElementById('greet').textContent = dubaiH < 12 ? 'GOOD MORNING' : dubaiH < 17 ? 'GOOD AFTERNOON' : 'GOOD EVENING';
+  document.getElementById('todayStr').textContent = new Intl.DateTimeFormat('en-GB',
+    { timeZone:'Asia/Dubai', weekday:'long', day:'2-digit', month:'long', year:'numeric' }).format(new Date()).toUpperCase();
+
+  TF.fx.reveal();
+  TF.fx.counters();
+
+  TF.fx.ticker(document.getElementById('opsTick'), TF.jobs.map(j =>
+    `<b>${j.id}</b> ${j.veh} · ${j.from} → ${j.to} · ${j.st==='ok'?'DELIVERED ✓':j.st==='run'?'IN TRANSIT':'AWAITING LOAD'}`));
+
+  TF.charts.bars(document.getElementById('revCost'), {
+    labels: TF.months.labels,
+    series: [
+      { name:'REVENUE', color:'var(--teal)', values:TF.months.rev  },
+      { name:'COST',    color:'var(--acc)',  values:TF.months.cost },
+    ]
+  });
+  TF.charts.spark(document.getElementById('sparkRev'),  TF.months.rev,  'var(--teal)');
+  TF.charts.spark(document.getElementById('sparkCost'), TF.months.cost, 'var(--acc)');
+
+  TF.charts.hbars(document.getElementById('agingBars'),
+    TF.aging.map(a => ({ ...a, sub: a.value ? (a.value/TF.kpi.outstanding*100).toFixed(0)+'% OF OUTSTANDING' : 'CLEAR' })));
+  TF.charts.hbars(document.getElementById('topClients'),
+    TF.topClients.map(c => ({ ...c, sub: (c.value/TF.kpi.ytdRev*100).toFixed(1)+'% OF YTD BILLING' })));
+
+  document.getElementById('fleetBody').innerHTML = TF.vehicles.map(v => `
+    <tr>
+      <td class="mono"><b>${v.plate}</b><br><small>${v.type}</small></td>
+      <td>${v.driver}</td>
+      <td class="mono" style="font-size:11px">${v.note}</td>
+      <td class="r"><span class="st ${v.st}"><i></i>${v.st==='run'?'ON ROAD':v.st==='wrk'?'WORKSHOP':'ON ROAD'}</span></td>
+    </tr>`).join('');
+
+  const stMap = { paid:['ok','PAID'], open:['wait','OPEN'], partial:['run','PARTIAL'], overdue:['bad','OVERDUE'] };
+  document.getElementById('invBody').innerHTML = TF.invoices.map(v => {
+    const [s,l] = stMap[v.st];
+    return `<tr>
+      <td class="mono">${v.no}</td><td>${v.client}</td>
+      <td class="mono">${TF.fmt.dt(v.date)}</td><td class="mono">${TF.fmt.dt(v.due)}</td>
+      <td class="r mono">${TF.fmt.aed(v.amt)}</td>
+      <td class="r"><span class="st ${s}"><i></i>${l}</span></td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('oneClick').addEventListener('click', () =>
+    TF.fx.toast('⚡ ONE-CLICK INVOICING — the star feature. Live in the next survey build.'));
+})();
+</script>
+</body>
+</html>
