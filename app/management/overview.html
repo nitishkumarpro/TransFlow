@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Owner Cockpit — TRANSFLOW</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%230C161B'/%3E%3Cpath d='M4 8h11l5 4-5 4H4z' fill='%23FF5A1F'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/tokens.css">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/shell.css">
+<link rel="stylesheet" href="/assets/css/cockpit.css">
+</head>
+<body data-active="mgmt">
+<main id="page">
+
+  <!-- ============ FLIGHT DECK (dark instrument band) ============ -->
+  <section class="deck" data-reveal>
+    <div class="deck-grid-bg"></div>
+    <div class="deck-glow"></div>
+
+    <div class="deck-top">
+      <p class="kicker dk">OWNER COCKPIT · READ-ONLY BRIDGE · <span id="todayStr">—</span></p>
+      <span class="live-pill"><i></i>LIVE · ALL MODULES SYNCED</span>
+    </div>
+
+    <div class="deck-body">
+      <!-- radial health dial -->
+      <div class="dial-wrap">
+        <div class="radar"></div>
+        <svg class="dial" viewBox="0 0 140 140" id="dial">
+          <circle class="dial-track" cx="70" cy="70" r="52"/>
+          <circle class="dial-val" id="dialVal" cx="70" cy="70" r="52"/>
+          <text class="dial-num" id="dialNum" x="70" y="66">0</text>
+          <text class="dial-of" x="70" y="82">/ 100</text>
+        </svg>
+        <div class="dial-band" id="dialBand">—</div>
+        <div class="dial-subs" id="dialSubs"></div>
+      </div>
+
+      <!-- the plain-English verdict -->
+      <div class="verdict">
+        <h1 class="display g-h1 dk-h1" id="verdictLine">—</h1>
+        <p class="verdict-sub mono" id="verdictSub">—</p>
+      </div>
+
+      <!-- hero instrument tiles -->
+      <div class="tiles" id="tiles"></div>
+    </div>
+
+    <div class="deck-tick" id="deckTick"></div>
+  </section>
+
+  <!-- ============ PULSE + MONEY MAP ============ -->
+  <section class="row2" data-reveal style="--d:.06s">
+    <article class="card trend-card" data-idx="MARGIN">
+      <header class="card-h">
+        <div><p class="kicker">6-MONTH TREND</p><h3>GROSS MARGIN TRAJECTORY</h3></div>
+        <span class="trend-now mono" id="trendNow">—</span>
+      </header>
+      <div class="card-b">
+        <div class="trend-big" id="marginSpark"></div>
+        <div class="trend-scale mono"><span>6 MONTHS AGO</span><span id="trendRange">—</span><span>NOW</span></div>
+        <div class="trend-note mono">MARGIN = (REVENUE − COST) ÷ REVENUE · READ FROM THE SAME LEDGER AS THE CONTROL TOWER</div>
+      </div>
+    </article>
+
+    <article class="card money-card" data-idx="CASH">
+      <header class="card-h"><div><p class="kicker">WHERE THE MONEY IS</p><h3>BILLED → COLLECTED → OWED</h3></div></header>
+      <div class="card-b">
+        <div class="mm-bar" id="mmBar"></div>
+        <div class="mm-leg" id="mmLeg"></div>
+        <p class="kicker" style="margin-top:16px">TOP DEBTORS · CHASE THESE</p>
+        <div class="mm-debtors" id="mmDebtors"></div>
+      </div>
+    </article>
+  </section>
+
+  <!-- ============ ATTENTION + COMPLIANCE ============ -->
+  <section class="row-att" data-reveal style="--d:.1s">
+    <article class="card att-card" data-idx="TODAY">
+      <header class="card-h">
+        <div><p class="kicker">TRIAGE · PULLED LIVE FROM EVERY MODULE</p><h3>WHAT NEEDS YOU TODAY</h3></div>
+        <span class="att-count mono" id="attCount">—</span>
+      </header>
+      <div class="card-b" id="attList"></div>
+    </article>
+
+    <aside class="comp-rail">
+      <article class="card comp-card vat" data-idx="VAT" data-reveal style="--d:.14s">
+        <div class="comp-h"><span class="comp-ico">🧾</span><div><b>VAT RETURN</b><small class="mono" id="vatQ">—</small></div>
+          <span class="comp-st" id="vatSt">—</span></div>
+        <div class="comp-fig mono" id="vatFig">—</div>
+        <a class="comp-go" href="/app/reports/vat-report">OPEN VAT RETURN →</a>
+      </article>
+      <article class="card comp-card teaser" data-idx="CT" data-reveal style="--d:.18s">
+        <div class="comp-h"><span class="comp-ico">🏛</span><div><b>CORPORATE TAX</b><small class="mono">FORM CT200 · FY26</small></div>
+          <span class="comp-st pilot">PILOT</span></div>
+        <div class="comp-fig mono">TAXABLE INCOME FROM THIS SAME LEDGER</div>
+        <span class="comp-go locked">🔒 BUILT FROM THE SAME DATA · SEP 2026</span>
+      </article>
+      <article class="card comp-card teaser" data-idx="ESR" data-reveal style="--d:.22s">
+        <div class="comp-h"><span class="comp-ico">⚖</span><div><b>ECONOMIC SUBSTANCE</b><small class="mono">ESR FILING</small></div>
+          <span class="comp-st pilot">PILOT</span></div>
+        <div class="comp-fig mono">DISTRIBUTIONS &amp; ACTIVITY TEST</div>
+        <span class="comp-go locked">🔒 INCLUDED IN THE PILOT BUILD</span>
+      </article>
+    </aside>
+  </section>
+
+  <!-- ============ FLEET AT A GLANCE ============ -->
+  <article class="card fleet-card" data-idx="FLEET" data-reveal style="--d:.16s">
+    <header class="card-h">
+      <div><p class="kicker">FLEET AT A GLANCE · THIS WEEK FROM THE TRIP SHEET</p><h3>EIGHT TRUCKS · EIGHT NUMBERS</h3></div>
+      <a class="card-link mono" href="/app/reports/vehicle-pl">FULL VEHICLE P&amp;L →</a>
+    </header>
+    <div class="card-b"><div class="fleet-grid" id="fleetGrid"></div></div>
+  </article>
+
+  <p class="cockpit-disc mono" data-reveal style="--d:.2s">READ-ONLY OWNER VIEW · EVERY TILE, ROW AND DIAL LINKS TO THE SCREEN THAT OWNS ITS NUMBER · NOTHING HERE IS RE-KEYED — IT IS THE SAME SINGLE SOURCE OF TRUTH AS OPERATIONS, BILLING, COLLECTIONS, PAYABLES &amp; THE VAT RETURN · FIGURES ILLUSTRATIVE</p>
+
+</main>
+
+<script src="/assets/js/data.js"></script>
+<script src="/assets/js/fmt.js"></script>
+<script src="/assets/js/fx.js"></script>
+<script src="/assets/js/charts.js"></script>
+<script src="/assets/js/auth.js"></script>
+<script src="/assets/js/shell.js"></script>
+<script src="/assets/js/cockpit.js"></script>
+<script>
+  document.getElementById('todayStr').textContent = new Intl.DateTimeFormat('en-GB',
+    { timeZone:'Asia/Dubai', weekday:'long', day:'2-digit', month:'long', year:'numeric' }).format(new Date()).toUpperCase();
+</script>
+</body>
+</html>

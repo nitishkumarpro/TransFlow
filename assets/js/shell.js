@@ -45,7 +45,7 @@
       { id:'ledger',      t:'Ledger',      h:'/app/finance/ledger',      i:'book', soon:1 },
       { id:'vat',         t:'VAT',         h:'/app/finance/vat',         i:'shield', soon:1 }]},
     { g:'MANAGEMENT', items:[
-      { id:'mgmt', t:'Owner Cockpit', h:'/app/management/overview', i:'eye', soon:1 }]},
+      { id:'mgmt', t:'Owner Cockpit', h:'/app/management/overview', i:'eye' }]},
     { g:'MASTERS', items:[
       { id:'clients',   t:'Clients',          h:'/app/masters/clients',   i:'users', soon:1 },
       { id:'vehicles',  t:'Vehicles',         h:'/app/masters/vehicles',  i:'truck', soon:1 },
