@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Trip Sheet — TRANSFLOW</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%230C161B'/%3E%3Cpath d='M4 8h11l5 4-5 4H4z' fill='%23FF5A1F'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/tokens.css">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/shell.css">
+<link rel="stylesheet" href="/assets/css/grid.css">
+<link rel="stylesheet" href="/assets/css/invoice.css">
+<style>
+  /* page header (shared pattern) + mini stats */
+  .ph{margin-bottom:16px}
+  .g-h1{font-size:clamp(36px,4.4vw,54px);font-weight:800;letter-spacing:.015em;
+    line-height:.95;text-transform:uppercase;margin-top:6px}
+  .g-h1 em{font-style:normal;color:var(--acc)}
+  .ph-sub{margin-top:8px;font-size:13px;color:var(--mut);max-width:70ch}
+  .mini-stats{display:flex;flex-wrap:wrap;margin:18px 0 14px;border:1px solid var(--line);
+    border-radius:var(--r);background:var(--card);box-shadow:var(--sh)}
+  .mini-stats>div{padding:12px 26px;border-left:1px dashed var(--line-2);display:flex;flex-direction:column;gap:2px}
+  .mini-stats>div:first-child{border-left:0}
+  .mini-stats b{font-family:var(--display);font-size:26px;font-weight:700;line-height:1}
+  .mini-stats span{font-family:var(--mono);font-size:8.5px;letter-spacing:.2em;color:var(--mut)}
+  .mini-stats .hot b{color:var(--acc-2)}
+</style>
+</head>
+<body data-active="spreadsheet">
+<main id="page">
+
+  <section class="ph">
+    <p class="kicker" data-reveal>OPERATIONS · TRIP SHEET · <span id="todayStr">—</span></p>
+    <h1 class="display g-h1" data-reveal style="--d:.05s">ENTER TRIPS LIKE <em>EXCEL.</em><br>GET INVOICES LIKE <em>MAGIC.</em></h1>
+    <p class="ph-sub" data-reveal style="--d:.1s">Tick the trips you delivered — one click raises a UAE-compliant tax invoice with 5% VAT, TRN and QR. Edit a rate and every total recalculates. No re-typing, ever.</p>
+  </section>
+
+  <div class="mini-stats" data-reveal style="--d:.12s">
+    <div><b id="msJobs">–</b><span>JOBS THIS WEEK</span></div>
+    <div><b id="msOpen">–</b><span>UNINVOICED JOBS</span></div>
+    <div class="hot"><b id="msVal">–</b><span>UNINVOICED VALUE</span></div>
+    <div><b>AED 406,350</b><span>ALREADY OUTSTANDING</span></div>
+  </div>
+
+  <article class="card" data-idx="OPS-01" data-reveal style="--d:.16s">
+    <div class="sheet-tools">
+      <label class="tool-srch">
+        <svg viewBox="0 0 24 24" width="14" height="14"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5"/></svg>
+        <input id="srch" type="text" placeholder="Search job, client, route…">
+      </label>
+      <select class="tool-sel" id="fClient">
+        <option value="ALL">ALL CLIENTS</option>
+      </select>
+      <div class="fchips">
+        <button class="fchip on" data-st="ALL">ALL</button>
+        <button class="fchip" data-st="run">IN TRANSIT</button>
+        <button class="fchip" data-st="ok">DELIVERED</button>
+        <button class="fchip" data-st="wait">AWAITING</button>
+      </div>
+      <span class="tool-sp"></span>
+      <button class="btn btn-ghost" id="addJob">＋ NEW TRIP</button>
+      <button class="btn btn-acc" id="genBtn" disabled>⚡ SELECT TRIPS TO BILL</button>
+    </div>
+
+    <div class="grid-wrap"><table class="sgrid" id="sgrid"></table></div>
+    <div class="grid-status" id="gridStatus"></div>
+  </article>
+
+</main>
+
+<!-- one-click invoice modal -->
+<div class="inv-ovl" id="invOvl">
+  <div class="inv-modal">
+    <header class="inv-top">
+      <div><p class="kicker">ONE-CLICK BILLING</p><h3>TAX INVOICE PREVIEW</h3></div>
+      <div class="inv-tabs"></div>
+      <button class="inv-x" id="invClose">✕</button>
+    </header>
+    <div class="inv-body"><div id="invDocs"></div></div>
+    <footer class="inv-foot">
+      <span class="inv-sum" id="invSum"></span>
+      <div class="inv-acts">
+        <button class="btn btn-ghost" id="invPrint">🖨 PRINT / PDF</button>
+        <button class="btn btn-ghost" id="invMail">✉ EMAIL</button>
+        <button class="btn btn-ghost" id="invWa">💬 WHATSAPP</button>
+        <button class="btn btn-acc" id="invConfirm">CONFIRM & RAISE →</button>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="/assets/js/data.js"></script>
+<script src="/assets/js/fmt.js"></script>
+<script src="/assets/js/fx.js"></script>
+<script src="/assets/js/auth.js"></script>
+<script src="/assets/js/shell.js"></script>
+<script src="/assets/js/spreadsheet.js"></script>
+<script src="/assets/js/invoice.js"></script>
+<script>
+  document.getElementById('todayStr').textContent = new Intl.DateTimeFormat('en-GB',
+    { timeZone:'Asia/Dubai', weekday:'long', day:'2-digit', month:'long', year:'numeric' })
+    .format(new Date()).toUpperCase();
+  document.getElementById('fClient').innerHTML =
+    '<option value="ALL">ALL CLIENTS</option>' +
+    TF.clients.map(c => `<option>${c.name}</option>`).join('');
+  TF.fx.reveal();
+</script>
+</body>
+</html>
