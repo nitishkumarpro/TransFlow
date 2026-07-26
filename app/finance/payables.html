@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Payables & Cash Flow — TRANSFLOW</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%230C161B'/%3E%3Cpath d='M4 8h11l5 4-5 4H4z' fill='%23FF5A1F'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/tokens.css">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/shell.css">
+<link rel="stylesheet" href="/assets/css/payables.css">
+</head>
+<body data-active="payables">
+<main id="page">
+  <div class="hazard-top"></div>
+
+  <section class="ph">
+    <p class="kicker" data-reveal>PAYABLES & CASH FLOW · <span id="todayStr">—</span></p>
+    <h1 class="display g-h1" data-reveal style="--d:.05s">PAY EVERYONE ON TIME.<br><em>KNOW YOU CAN.</em></h1>
+    <p class="ph-sub" data-reveal style="--d:.1s">Every dirham you owe — drivers, fuel, vendors, the FTA — ranked by due date, against a 28-day cash forecast that pinpoints the exact day you could run short. Defer a payment, stress-test a late client, and watch the curve move.</p>
+  </section>
+
+  <div class="btick" id="btick" data-reveal style="--d:.12s"></div>
+
+  <section class="manifest" data-reveal style="--d:.14s">
+    <div class="m-cell hot"><span class="l">TO PAY · 30 DAYS</span><span class="v" id="mPay30">AED 0</span><span class="s">ALL COMMITMENTS</span></div>
+    <div class="m-cell bad"><span class="l">DUE THIS WEEK</span><span class="v" id="mWeek">AED 0</span><span class="s">MUST FUND NOW</span></div>
+    <div class="m-cell"><span class="l">DRIVERS' PAY</span><span class="v" id="mDrv">AED 0</span><span class="s">SALARY + COMMISSION</span></div>
+    <div class="m-cell"><span class="l">FUEL & VENDORS</span><span class="v" id="mVen">AED 0</span><span class="s">OPS + GOVT + RENT</span></div>
+    <div class="m-cell good"><span class="l">PROJECTED CASH · 28D</span><span class="v" id="mProj">AED 0</span><span class="s" id="mProjSub">FORECAST CLOSE</span></div>
+    <div class="m-cell" id="mDangerCell"><span class="l">DANGER DAYS</span><span class="v" id="mDanger">0</span><span class="s">FORECAST BELOW ZERO</span></div>
+  </section>
+
+  <article class="card fc-card" data-idx="FORECAST" data-reveal style="--d:.16s">
+    <header class="card-h">
+      <div><p class="kicker">28-DAY CASH FORECAST</p><h3>WILL YOU HAVE THE CASH?</h3></div>
+      <div class="scen">
+        <button class="scen-b on" data-scen="normal">NORMAL</button>
+        <button class="scen-b" data-scen="late">⚠ STRESS: CLIENTS PAY LATE</button>
+      </div>
+    </header>
+    <div class="card-b">
+      <div class="fc-low" id="fcLow"></div>
+      <div id="fcChart"></div>
+      <div class="fc-advisory mono" id="fcAdvisory"></div>
+      <table class="wk">
+        <thead><tr><th>WEEK</th><th class="r">MONEY IN</th><th class="r">MONEY OUT</th><th class="r">NET</th><th class="r">CLOSING BALANCE</th></tr></thead>
+        <tbody id="wkBody"></tbody>
+      </table>
+    </div>
+  </article>
+
+  <article class="card" data-idx="PAYABLES" data-reveal style="--d:.2s">
+    <header class="card-h">
+      <div><p class="kicker">WHAT YOU OWE</p><h3>PAYABLES — BY DUE DATE</h3></div>
+      <div class="fchips" style="margin-left:auto">
+        <button class="fchip on" data-f="ALL">ALL</button>
+        <button class="fchip" data-f="DRIVERS">DRIVERS</button>
+        <button class="fchip" data-f="OPS">FUEL & VENDORS</button>
+        <button class="fchip" data-f="WEEK">DUE THIS WEEK</button>
+        <button class="fchip" data-f="OVERDUE">OVERDUE</button>
+      </div>
+    </header>
+    <div class="card-b" id="payList"></div>
+  </article>
+</main>
+
+<script src="/assets/js/data.js"></script>
+<script src="/assets/js/fmt.js"></script>
+<script src="/assets/js/fx.js"></script>
+<script src="/assets/js/auth.js"></script>
+<script src="/assets/js/shell.js"></script>
+<script src="/assets/js/payables.js"></script>
+<script>
+  document.getElementById('todayStr').textContent = new Intl.DateTimeFormat('en-GB',
+    { timeZone:'Asia/Dubai', weekday:'long', day:'2-digit', month:'long', year:'numeric' }).format(new Date()).toUpperCase();
+</script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+/* ---- shared page header (self-contained) ---- */
+.ph{margin-bottom:16px}
+.g-h1{font-size:clamp(34px,4.4vw,56px);font-weight:800;letter-spacing:.015em;line-height:.95;text-transform:uppercase;margin-top:6px}
+.g-h1 em{font-style:normal;color:var(--acc)}
+.ph-sub{margin-top:8px;font-size:13px;color:var(--mut);max-width:78ch}
+.hazard-top{height:5px;margin:-24px -26px 18px;background:repeating-linear-gradient(-45deg,var(--acc) 0 12px,var(--ink) 12px 24px)}
+
+/* ---- ticker ---- */
+.btick{overflow:hidden;background:var(--ink);color:#BFD3CA;border-radius:var(--r);margin-bottom:18px}
+.btick .ticker-track{display:inline-flex;white-space:nowrap;padding:7px 0;animation:tick 38s linear infinite}
+.btick:hover .ticker-track{animation-play-state:paused}
+.btick .ticker-track span{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;padding:0 24px;border-right:1px solid rgba(255,255,255,.12)}
+.btick .ticker-track b{color:var(--acc);font-weight:600}
+.btick .ticker-track .g{color:#7FE0C6}
+.btick .ticker-track .r{color:#FF9B8A}
+
+/* ---- scoreboard ---- */
+.manifest{display:grid;grid-template-columns:repeat(6,1fr);border:1px solid var(--line);border-radius:var(--r);
+  background:var(--card);box-shadow:var(--sh);overflow:hidden;margin-bottom:16px;position:relative}
+.manifest::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;
+  background:repeating-linear-gradient(-45deg,var(--acc) 0 8px,var(--ink) 8px 16px)}
+.m-cell{padding:15px 16px 13px;border-left:1px dashed var(--line-2);display:flex;flex-direction:column;gap:5px}
+.m-cell:first-child{border-left:0}
+.m-cell .l{font-family:var(--mono);font-size:8px;letter-spacing:.16em;color:var(--mut)}
+.m-cell .v{font-family:var(--display);font-size:clamp(20px,2vw,27px);font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+.m-cell .s{font-family:var(--mono);font-size:8px;letter-spacing:.1em;color:var(--steel)}
+.m-cell.hot .v{color:var(--acc-2)}
+.m-cell.bad .v{color:var(--red)}
+.m-cell.good .v{color:var(--teal-2)}
+
+/* ---- forecast card ---- */
+.scen{display:flex;gap:6px;margin-left:auto}
+.scen-b{font-family:var(--mono);font-size:9px;letter-spacing:.1em;font-weight:600;padding:6px 10px;
+  border:1px solid var(--line-2);border-radius:3px;background:var(--white);transition:.15s}
+.scen-b.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.fc-low{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:12px;
+  padding:12px 16px;border:1px dashed var(--line-2);border-radius:var(--r);background:var(--white)}
+.fc-low-l{font-size:9px;letter-spacing:.16em;color:var(--mut)}
+.fc-low-v{font-size:38px;font-weight:800;line-height:.9}
+.fc-low-v.neg{color:var(--red)}
+.fc-low-d{font-size:9.5px;letter-spacing:.12em;color:var(--steel)}
+.fchart{display:block}
+.fchart text{font-family:var(--mono);font-size:9px;fill:var(--mut)}
+.fc-bar{transform-box:fill-box;transform:scaleY(0);transition:transform .7s var(--ease) var(--o,0s)}
+.fc-bar.pos{fill:var(--teal);opacity:.5;transform-origin:50% 100%}
+.fc-bar.neg{fill:var(--red);opacity:.62;transform-origin:50% 0%}
+.in .fc-bar{transform:scaleY(1)}
+.fc-line{fill:none;stroke:var(--ink);stroke-width:2;stroke-linejoin:round;opacity:0;transition:opacity .8s .35s}
+.in .fc-line{opacity:1}
+.fc-advisory{margin:14px 0;font-size:11px;letter-spacing:.04em;line-height:1.7;color:var(--ink);
+  border-left:3px solid var(--acc);background:var(--acc-soft);padding:10px 14px;border-radius:0 var(--r) var(--r) 0}
+.fc-advisory a{color:var(--acc-2);font-weight:600;text-decoration:underline dotted}
+.wk{width:100%;border-collapse:collapse;margin-top:6px}
+.wk th{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);
+  text-align:left;padding:8px 10px;border-bottom:2px solid var(--ink)}
+.wk td{padding:9px 10px;border-bottom:1px dashed var(--line);font-size:12.5px}
+.wk .r{text-align:right}
+.wk .in-c{color:var(--teal-2)}
+.wk .out-c{color:var(--acc-2)}
+.wk .neg-c{color:var(--red);font-weight:600}
+.wk .close-c b{font-variant-numeric:tabular-nums}
+.wk .neg-row td{background:rgba(194,56,44,.06)}
+
+/* ---- payables queue ---- */
+.pay{display:grid;grid-template-columns:96px 1fr auto;gap:16px;align-items:center;
+  background:var(--white);border:1px solid var(--line);border-left:5px solid var(--line-2);border-radius:var(--r);
+  padding:13px 16px;margin-bottom:10px;box-shadow:var(--sh);
+  animation:payin .5s var(--ease) both;animation-delay:calc(var(--i,0)*40ms);
+  transition:transform .18s var(--ease),box-shadow .18s var(--ease),opacity .35s}
+.pay:hover{transform:translateY(-2px);box-shadow:0 16px 30px -18px rgba(12,22,27,.4)}
+.pay.ovd{border-left-color:var(--red)}
+.pay.is-paid{opacity:.55;border-left-color:var(--teal)}
+.cat-chip{font-family:var(--mono);font-size:8px;letter-spacing:.12em;font-weight:600;padding:4px 7px;border-radius:3px;
+  background:#E3E8E1;color:var(--steel);white-space:nowrap}
+.cat-chip.DRIVERS{background:var(--teal-soft);color:var(--teal-2)}
+.cat-chip.FUEL{background:var(--amber-soft);color:var(--amber)}
+.cat-chip.MAINT{background:var(--acc-soft);color:var(--acc-2)}
+.cat-chip.GOVT{background:var(--red-soft);color:var(--red)}
+.cat-chip.INSURANCE,.cat-chip.RENT{background:#E3E8E1;color:var(--steel)}
+.pay-top{display:flex;align-items:baseline;gap:12px}
+.pay-top b{font-family:var(--display);font-size:19px;font-weight:700;letter-spacing:.03em}
+.pay-top .amt{margin-left:auto;font-size:16px;font-weight:600}
+.pay-desc{font-size:10px;letter-spacing:.06em;color:var(--steel);margin:2px 0 5px}
+.pay-due{font-size:10px;letter-spacing:.1em;color:var(--mut);display:flex;align-items:center;gap:8px}
+.due{font-weight:600;padding:2px 6px;border-radius:3px;background:#E3E8E1;color:var(--steel)}
+.due.warn{background:var(--amber-soft);color:var(--amber)}
+.due.bad{background:var(--red);color:#fff;animation:pulse 1.8s infinite}
+.pay-acts{display:flex;flex-direction:column;gap:6px}
+.pay-acts button{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;font-weight:600;padding:7px 12px;
+  border:1px solid var(--line-2);border-radius:3px;background:var(--white);transition:.15s;white-space:nowrap}
+.pay-acts button:hover{background:var(--ink);color:#fff;border-color:var(--ink);transform:translateX(-2px)}
+.pay-acts button[data-act="pay"]{border-color:var(--teal);color:var(--teal-2)}
+.pay-acts button[data-act="pay"]:hover{background:var(--teal);color:#fff;border-color:var(--teal)}
+.paid-tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;font-weight:600;color:var(--teal-2);
+  background:var(--teal-soft);padding:7px 12px;border-radius:3px}
+.q-empty{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--mut);text-align:center;padding:26px}
+
+@keyframes payin{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.pay{animation:none}.fc-bar{transition:none;transform:scaleY(1)}.fc-line{opacity:1}}
+@media(max-width:1000px){.manifest{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:680px){.manifest{grid-template-columns:1fr 1fr}.pay{grid-template-columns:1fr}.pay-cat{order:-1}.pay-acts{flex-direction:row;flex-wrap:wrap}.fc-low-v{font-size:30px}}

@@ -38,7 +38,7 @@
       { id:'soa',         t:'Statement of Account', h:'/app/operations/soa',         i:'doc' }]},
     { g:'FINANCE', items:[
       { id:'receivables', t:'Receivables', h:'/app/finance/receivables', i:'rin' },
-      { id:'payables',    t:'Payables',    h:'/app/finance/payables',    i:'rout', soon:1 },
+      { id:'payables',    t:'Payables',    h:'/app/finance/payables',    i:'rout' },
       { id:'costs',       t:'Cost Entry',  h:'/app/finance/costs',       i:'fuel', soon:1 },
       { id:'salaries',    t:'Salaries',    h:'/app/finance/salaries',    i:'pay',  soon:1 },
       { id:'commissions', t:'Commissions', h:'/app/finance/commissions', i:'pct',  soon:1 },
