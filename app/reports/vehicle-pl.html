@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vehicle P&amp;L — TRANSFLOW</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%230C161B'/%3E%3Cpath d='M4 8h11l5 4-5 4H4z' fill='%23FF5A1F'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/tokens.css">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/shell.css">
+<link rel="stylesheet" href="/assets/css/reports.css">
+</head>
+<body data-active="vpl">
+<main id="page">
+  <div class="hazard-top"></div>
+
+  <section class="ph">
+    <p class="kicker" data-reveal>REPORTS · VEHICLE PROFIT &amp; LOSS · <span id="todayStr">—</span></p>
+    <h1 class="display g-h1" data-reveal style="--d:.05s">EVERY TRUCK HAS<br>A <em>PROFIT NUMBER.</em></h1>
+    <p class="ph-sub" data-reveal style="--d:.1s">Revenue earned against every cost the truck actually causes — fuel, driver, repairs, insurance, tyres, tolls, registration — down to its true gross profit and margin. Ranked worst-first, because the truck that's losing you money is the one you need to see now.</p>
+  </section>
+
+  <div class="btick" id="btick" data-reveal style="--d:.12s"></div>
+
+  <section class="manifest" data-reveal style="--d:.14s">
+    <div class="m-cell"><span class="l">FLEET REVENUE</span><span class="v" id="mRev">AED 0</span><span class="s" id="mPer">MONTH TO DATE</span></div>
+    <div class="m-cell"><span class="l">FLEET COST</span><span class="v" id="mCost">AED 0</span><span class="s">ALL VEHICLE COSTS</span></div>
+    <div class="m-cell good"><span class="l">FLEET GROSS PROFIT</span><span class="v" id="mGp">AED 0</span><span class="s">BEFORE HEAD OFFICE</span></div>
+    <div class="m-cell"><span class="l">FLEET MARGIN</span><span class="v" id="mMargin">0%</span><span class="s">VEHICLE-LEVEL GP</span></div>
+    <div class="m-cell"><span class="l">PROFITABLE</span><span class="v" id="mWin">0<span class="of">/8</span></span><span class="s">TRUCKS IN THE GREEN</span></div>
+    <div class="m-cell bad"><span class="l">BLEEDING</span><span class="v" id="mBleed">0</span><span class="s">COST MORE THAN THEY EARN</span></div>
+  </section>
+
+  <div class="rpt-row" data-reveal style="--d:.16s">
+    <article class="card health-card" data-idx="HEALTH">
+      <header class="card-h"><div><p class="kicker">FLEET HEALTH</p><h3>MARGIN GAUGE</h3></div></header>
+      <div class="card-b" id="health"></div>
+    </article>
+    <article class="card mix-card" data-idx="MIX">
+      <header class="card-h"><div><p class="kicker">REVENUE MIX</p><h3>WHO EARNS THE FLEET'S MONEY</h3></div></header>
+      <div class="card-b" id="mix"></div>
+    </article>
+  </div>
+
+  <article class="card verdict-card" id="verdictCard" data-idx="VERDICT" data-reveal style="--d:.18s">
+    <div class="card-b" id="verdict"></div>
+  </article>
+
+  <article class="card" data-idx="P&L" data-reveal style="--d:.2s">
+    <header class="card-h">
+      <div><p class="kicker">PER VEHICLE</p><h3>PROFIT &amp; LOSS — BY MARGIN</h3></div>
+      <div class="rpt-tools">
+        <div class="seg" id="seg">
+          <button class="seg-b on" data-per="month">THIS MONTH</button>
+          <button class="seg-b" data-per="last">LAST MONTH</button>
+          <button class="seg-b" data-per="qtd">QUARTER</button>
+        </div>
+        <div class="fchips" id="sortChips">
+          <button class="fchip on" data-sort="margin">MARGIN ▲</button>
+          <button class="fchip" data-sort="gp">GROSS PROFIT ▲</button>
+          <button class="fchip" data-sort="rev">REVENUE ▼</button>
+        </div>
+        <div class="fchips" id="filterChips">
+          <button class="fchip on" data-f="ALL">ALL</button>
+          <button class="fchip" data-f="BLEED">BLEEDING</button>
+          <button class="fchip" data-f="WATCH">THIN MARGIN</button>
+          <button class="fchip" data-f="OK">PROFITABLE</button>
+        </div>
+      </div>
+    </header>
+    <div style="overflow:auto">
+      <table class="vtbl">
+        <thead><tr>
+          <th>#</th><th>VEHICLE</th><th>DRIVER</th>
+          <th class="r">REVENUE</th><th class="r">COST</th><th class="r">GROSS PROFIT</th>
+          <th style="min-width:150px">MARGIN</th><th>STATUS</th><th></th>
+        </tr></thead>
+        <tbody id="vBody"></tbody>
+      </table>
+    </div>
+    <div class="vtbl-foot mono">VEHICLE GROSS PROFIT EXCLUDES HEAD-OFFICE OVERHEAD (YARD · ADMIN · FINANCE) — FOR COMPANY MARGIN SEE THE CONTROL TOWER · FIGURES ILLUSTRATIVE</div>
+  </article>
+</main>
+
+<!-- per-vehicle detail drawer -->
+<div class="scrim2" id="scrim2"></div>
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <header class="drawer-h">
+    <div><p class="kicker" id="dKicker">VEHICLE FILE</p><h3 id="dTitle">—</h3></div>
+    <button class="drawer-x" id="drawerClose">✕</button>
+  </header>
+  <div class="drawer-b" id="drawerBody"></div>
+</aside>
+
+<script src="/assets/js/data.js"></script>
+<script src="/assets/js/fmt.js"></script>
+<script src="/assets/js/fx.js"></script>
+<script src="/assets/js/auth.js"></script>
+<script src="/assets/js/shell.js"></script>
+<script src="/assets/js/vehicle-pl.js"></script>
+<script>
+  document.getElementById('todayStr').textContent = new Intl.DateTimeFormat('en-GB',
+    { timeZone:'Asia/Dubai', weekday:'long', day:'2-digit', month:'long', year:'numeric' }).format(new Date()).toUpperCase();
+</script>
+</body>
+</html>

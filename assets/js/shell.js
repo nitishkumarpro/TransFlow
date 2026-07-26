@@ -54,7 +54,7 @@
       { id:'rates',     t:'Rates',            h:'/app/masters/rates',     i:'rates', soon:1 },
       { id:'routes',    t:'Routes (From/To)', h:'/app/masters/routes',    i:'route', soon:1 }]},
     { g:'REPORTS', items:[
-      { id:'vpl',  t:'Vehicle P&L',           h:'/app/reports/vehicle-pl',           i:'chart',  soon:1 },
+      { id:'vpl',  t:'Vehicle P&L',           h:'/app/reports/vehicle-pl',           i:'chart' },
       { id:'rvc',  t:'Revenue vs Cost',       h:'/app/reports/revenue-vs-cost',      i:'chart',  soon:1 },
       { id:'crev', t:'Client Revenue',        h:'/app/reports/client-revenue',       i:'chart',  soon:1 },
       { id:'salc', t:'Salaries & Commissions',h:'/app/reports/salaries-commissions', i:'pay',    soon:1 },
