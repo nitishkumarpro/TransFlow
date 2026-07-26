@@ -1,0 +1,73 @@
+/* ---- toolbar ---- */
+.sheet-tools{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:12px 14px;
+  border-bottom:1px solid var(--line);background:var(--card)}
+.tool-srch{display:flex;align-items:center;gap:7px;border:1px solid var(--line-2);border-radius:var(--r);
+  background:var(--white);padding:7px 10px;min-width:210px}
+.tool-srch input{border:0;background:none;font-size:12.5px;width:100%;outline:none}
+.tool-srch svg{flex:none;stroke:var(--mut);fill:none;stroke-width:1.8;stroke-linecap:round}
+.tool-sel{border:1px solid var(--line-2);background:var(--white);border-radius:var(--r);
+  padding:7px 10px;font-size:12.5px;font-weight:500}
+.fchips{display:flex;gap:6px}
+.fchip{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;font-weight:600;padding:6px 10px;
+  border:1px solid var(--line-2);border-radius:3px;background:var(--white);transition:.15s}
+.fchip:hover{border-color:var(--ink);transform:translateY(-1px)}
+.fchip.on{background:var(--ink);color:var(--white);border-color:var(--ink)}
+.tool-sp{flex:1}
+.btn[disabled]{opacity:.45;box-shadow:none;cursor:not-allowed;transform:none}
+
+/* ---- the grid itself ---- */
+.grid-wrap{overflow:auto;max-height:calc(100vh - 300px);min-height:380px;background:var(--white)}
+.sgrid{border-collapse:separate;border-spacing:0;min-width:1310px;width:100%;font-size:12.5px}
+.sgrid th,.sgrid td{border-right:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:7px 9px;text-align:left;vertical-align:middle}
+
+/* letter row + header row, both frozen */
+.sgrid thead th{position:sticky;z-index:3;background:#E7EBE4;font-family:var(--mono);
+  font-size:9px;letter-spacing:.16em;color:var(--steel);text-transform:uppercase;user-select:none}
+.sgrid thead tr.lr th{top:0;background:#DFE4DC;font-size:8.5px;letter-spacing:.1em;color:var(--mut);
+  text-align:center;padding:3px 9px}
+.sgrid thead tr.lr th.rn-h{position:sticky;left:0;z-index:5}
+.sgrid thead tr.hr th{top:23px;border-bottom:2px solid var(--ink);color:var(--ink);font-weight:600}
+th[data-sort]{cursor:pointer;transition:color .15s}
+th[data-sort]:hover{color:var(--acc-2)}
+th.s-asc::after{content:' ▲';font-size:8px;color:var(--acc-2)}
+th.s-desc::after{content:' ▼';font-size:8px;color:var(--acc-2)}
+
+/* row-number gutter */
+.rn{position:sticky;left:0;z-index:2;background:#EFF2EC!important;font-family:var(--mono);
+  font-size:9.5px;color:var(--mut);text-align:center;width:34px;min-width:34px;
+  border-right:1px solid var(--line-2)!important}
+tr.sel .rn{background:var(--acc)!important;color:var(--ink);font-weight:600}
+
+/* rows */
+.sgrid tbody tr{transition:background .12s}
+.sgrid tbody tr:hover td{background:rgba(14,124,102,.05)}
+tr.sel td{background:rgba(255,90,31,.07)}
+tr.done td{opacity:.5}
+tr.fresh td{background:rgba(14,124,102,.05)}
+tr.fresh .rn{background:var(--teal)!important;color:#fff}
+
+.rowchk{width:15px;height:15px;accent-color:var(--acc);cursor:pointer}
+.rowchk:disabled{cursor:not-allowed}
+.c-mono{font-family:var(--mono);font-size:11.5px}
+.c-amt{font-family:var(--mono);text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+.c-num{text-align:right}
+
+/* editable cells — the Excel feel */
+.cell-in{width:100%;border:0;background:transparent;font-family:var(--mono);font-size:11.5px;
+  padding:3px 5px;border-radius:2px;text-align:right;transition:background .15s,box-shadow .15s}
+.cell-in.tx{text-align:left;font-family:var(--sans)}
+.cell-in:hover{background:#fff}
+.cell-in:focus{background:#fff;box-shadow:inset 0 0 0 2px var(--acc);outline:none}
+.cell-sel{width:100%;border:0;background:transparent;font-size:12px;padding:3px 2px;
+  border-radius:2px;cursor:pointer}
+.cell-sel:focus{box-shadow:inset 0 0 0 2px var(--teal);outline:none;background:#fff}
+
+/* Excel-style status bar */
+.grid-status{display:flex;flex-wrap:wrap;gap:6px 22px;align-items:center;background:var(--ink);
+  color:#9FB4AB;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;padding:9px 16px;
+  border-radius:0 0 var(--r) var(--r)}
+.grid-status b{color:var(--white);font-weight:600}
+.grid-status .acc{color:var(--acc)}
+.gs-live{display:inline-flex;align-items:center;gap:5px;margin-left:auto}
+.gs-live i{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 1.6s infinite}
