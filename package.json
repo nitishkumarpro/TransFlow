@@ -1,0 +1,6 @@
+{
+  "name": "transflow-prototype",
+  "version": "0.3.0",
+  "private": true,
+  "scripts": { "dev": "npx serve -l 3000 ." }
+}
