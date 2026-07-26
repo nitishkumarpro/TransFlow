@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vehicles — TRANSFLOW</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%230C161B'/%3E%3Cpath d='M4 8h11l5 4-5 4H4z' fill='%23FF5A1F'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/tokens.css">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/shell.css">
+<link rel="stylesheet" href="/assets/css/masters.css">
+<link rel="stylesheet" href="/assets/css/vehicles.css">
+</head>
+<body data-active="vehicles">
+<main id="page">
+  <div class="hazard-top"></div>
+
+  <section class="ph">
+    <p class="kicker" data-reveal>MASTERS · FLEET REGISTER · <span id="todayStr">—</span></p>
+    <h1 class="display g-h1" data-reveal style="--d:.05s">EIGHT TRUCKS.<br><em>ONE RECORD EACH.</em></h1>
+    <p class="ph-sub" data-reveal style="--d:.1s">Every vehicle, with the documents that keep it legal and the costs that keep it honest. Set a truck to workshop and it leaves the trip sheet; move a registration date and the Control Tower and the cockpit both start counting down. This is the plate the whole fleet hangs from.</p>
+  </section>
+
+  <!-- ============ DEPOT YARD (dark command band) ============ -->
+  <section class="depot" data-reveal>
+    <div class="depot-grid-bg"></div><div class="depot-glow"></div>
+    <div class="depot-top">
+      <p class="kicker dk">DEPOT · AL QUOZ YARD · BAY STATUS</p>
+      <span class="live-pill"><i></i>LIVE · FLEET SYNCED</span>
+    </div>
+    <div class="depot-body">
+      <div class="yard" id="yard"></div>
+      <div class="depot-side">
+        <div class="depot-stats">
+          <div><span class="mono">AVG UTILISATION</span><b id="dUtil">0%</b></div>
+          <div><span class="mono">MONTHLY RUN-RATE</span><b id="dRun">AED 0</b></div>
+          <div><span class="mono">NEXT EXPIRY</span><b id="dNext">—</b></div>
+        </div>
+        <p class="depot-line mono" id="depotLine">—</p>
+      </div>
+    </div>
+    <div class="depot-tick" id="depotTick"></div>
+  </section>
+
+  <!-- ============ SCOREBOARD ============ -->
+  <section class="manifest" data-reveal style="--d:.06s">
+    <div class="m-cell"><span class="l">FLEET SIZE</span><span class="v" id="mFleet">0</span><span class="s">REGISTERED VEHICLES</span></div>
+    <div class="m-cell"><span class="l">ON THE ROAD</span><span class="v" id="mRoad">0<span class="of">/0</span></span><span class="s">EARNING TODAY</span></div>
+    <div class="m-cell bad"><span class="l">EXPIRING ≤ 14 DAYS</span><span class="v" id="mExp">0</span><span class="s">RENEW NOW</span></div>
+    <div class="m-cell bad" id="mOvdCell"><span class="l">OVERDUE DOCS</span><span class="v" id="mOvd">0</span><span class="s">GROUND UNTIL FIXED</span></div>
+    <div class="m-cell"><span class="l">FLEET BOOK VALUE</span><span class="v" id="mVal">AED 0</span><span class="s">ASSETS ON BOOKS</span></div>
+  </section>
+
+  <!-- ============ COMPLIANCE HORIZON + WATCH ============ -->
+  <section class="horiz-row" data-reveal style="--d:.1s">
+    <article class="card horiz-card" data-idx="HORIZON">
+      <header class="card-h"><div><p class="kicker">COMPLIANCE HORIZON · 90-DAY WINDOW</p><h3>WHEN DOES EACH CERTIFICATE BITE?</h3></div>
+        <div class="hz-leg mono"><span><i class="lg-over"></i>OVERDUE</span><span><i class="lg-crit"></i>≤14D</span><span><i class="lg-warn"></i>≤30D</span><span><i class="lg-ok"></i>CLEAR</span></div></header>
+      <div class="card-b">
+        <div class="vh-scale" id="vhScale"></div>
+        <div class="vh-lanes" id="vhLanes"></div>
+      </div>
+    </article>
+    <article class="card watch-card" data-idx="WATCH">
+      <header class="card-h"><div><p class="kicker">RENEWAL DESK</p><h3>COMPLIANCE WATCH</h3></div>
+        <span class="watch-n mono" id="watchN">—</span></header>
+      <div class="card-b" id="watchList"></div>
+    </article>
+  </section>
+
+  <!-- ============ REGISTER ============ -->
+  <article class="card reg-card" data-idx="REGISTER" data-reveal style="--d:.14s">
+    <header class="card-h">
+      <div><p class="kicker">FLEET REGISTER</p><h3>ALL VEHICLES</h3></div>
+      <div class="dir-tools">
+        <label class="tool-srch">
+          <svg viewBox="0 0 24 24" width="14" height="14"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5"/></svg>
+          <input id="srch" type="text" placeholder="Search plate, type, driver…">
+        </label>
+        <div class="fchips" id="fChips">
+          <button class="fchip on" data-f="ALL">ALL</button>
+          <button class="fchip" data-f="ROAD">ON ROAD</button>
+          <button class="fchip" data-f="WRK">WORKSHOP</button>
+          <button class="fchip" data-f="RISK">DOC RISK</button>
+        </div>
+        <div class="fchips" id="sChips">
+          <button class="fchip on" data-s="risk">SOONEST EXPIRY ▲</button>
+          <button class="fchip" data-s="rev">WEEK REV ▼</button>
+          <button class="fchip" data-s="cost">COST ▼</button>
+          <button class="fchip" data-s="plate">PLATE ▲</button>
+        </div>
+        <button class="btn btn-acc" id="newBtn">＋ ADD VEHICLE</button>
+      </div>
+    </header>
+    <div class="card-b pad0">
+      <div class="vh-head mono">
+        <span class="vh-h-plate">PLATE · TYPE</span>
+        <span class="vh-h-drv">DRIVER · STATUS</span>
+        <span class="vh-h-doc">DOCUMENTS</span>
+        <span class="vh-h-util">UTILISATION</span>
+        <span class="vh-h-rev">WEEK REV</span>
+        <span class="vh-h-cost">COST / MO</span>
+        <span class="vh-h-st">STATE</span>
+        <span class="vh-h-act"></span>
+      </div>
+      <div id="regList"></div>
+    </div>
+  </article>
+
+  <p class="mast-disc mono" data-reveal style="--d:.18s">MASTER RECORD · STATUS SET HERE IS READ BY THE TRIP-SHEET BILLING DROPDOWN &amp; THE OWNER COCKPIT FLEET TILES · DOCUMENT DATES FEED THE CONTROL-TOWER RENEWAL COUNTDOWN &amp; THE COCKPIT TRIAGE LIST · WEEK REVENUE IS PULLED LIVE FROM THE TRIP SHEET · MONTHLY RUN-RATE MATCHES THE VEHICLE P&amp;L · FIGURES ILLUSTRATIVE</p>
+</main>
+
+<!-- edit / create drawer -->
+<div class="cl-scrim" id="clScrim"></div>
+<aside class="cl-drawer" id="clDrawer" aria-hidden="true">
+  <header class="cl-dh">
+    <div class="cl-dh-who">
+      <div class="vh-plate lg" id="dPlate">—</div>
+      <div><p class="kicker" id="dKicker">VEHICLE FILE</p><h3 id="dTitle">—</h3>
+        <span class="mono cl-dtrn" id="dSub">—</span></div>
+    </div>
+    <button class="cl-dx" id="dClose">✕</button>
+  </header>
+  <div class="cl-db" id="dBody"></div>
+  <footer class="cl-df">
+    <span class="mono cl-df-note" id="dFoot">—</span>
+    <button class="btn btn-ghost" id="dCancel">CANCEL</button>
+    <button class="btn btn-acc" id="dSave">SAVE MASTER →</button>
+  </footer>
+</aside>
+
+<script src="/assets/js/data.js"></script>
+<script src="/assets/js/fmt.js"></script>
+<script src="/assets/js/fx.js"></script>
+<script src="/assets/js/auth.js"></script>
+<script src="/assets/js/shell.js"></script>
+<script src="/assets/js/vehicles.js"></script>
+<script>
+  document.getElementById('todayStr').textContent = new Intl.DateTimeFormat('en-GB',
+    { timeZone:'Asia/Dubai', weekday:'long', day:'2-digit', month:'long', year:'numeric' }).format(new Date()).toUpperCase();
+</script>
+</body>
+</html>

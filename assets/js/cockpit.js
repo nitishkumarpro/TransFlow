@@ -162,6 +162,19 @@
     att.push({ sev:'warn', ico:'🔧', t:`${v.plate} IN WORKSHOP`, s:v.driver+' · fixed costs running, earning nothing', href:'/app/reports/vehicle-pl' }));
   (TF.vehicles||[]).filter(v=>v.st!=='wrk' && !weekRevByPlate[v.plate]).slice(0,1).forEach(v =>
     att.push({ sev:'note', ico:'⚑', t:`${v.plate} — NO TRIPS THIS WEEK`, s:v.driver+' · check dispatch', href:'/app/operations/spreadsheet' }));
+  // fleet compliance — most urgent document across the register (same master as /app/masters/vehicles)
+  (function(){
+    const DEMO = new Date(2026,6,27,12,0,0);
+    const pd = s => { const p=String(s).slice(0,10).split('-').map(Number); return new Date(p[0],p[1]-1,p[2],12,0,0); };
+    const DOC = {insExp:'INSURANCE',regExp:'REGISTRATION',fitExp:'FITNESS TEST'};
+    let u=null;
+    (TF.vehicles||[]).forEach(v => Object.keys(DOC).forEach(k => { if(v[k]){ const days=Math.round((pd(v[k])-DEMO)/864e5);
+      if(!u||days<u.days) u={plate:v.plate,type:DOC[k],days}; } }));
+    if(u){ const ov=u.days<0;
+      att.push({ sev: ov?'crit':u.days<=14?'warn':'note', ico: ov?'🚨':'🛡',
+        t:`${u.plate} — ${u.type} ${ov?(-u.days)+'D OVERDUE':'IN '+u.days+'D'}`,
+        s:'renew in Masters → Vehicles before it grounds the truck', href:'/app/masters/vehicles' }); }
+  })();
   // VAT status (same quarter logic as the VAT page, real clock)
   const QS=[{id:'Q3',f:new Date(2026,6,1),t:new Date(2026,8,30),dl:new Date(2026,9,28)},
             {id:'Q2',f:new Date(2026,3,1),t:new Date(2026,5,30),dl:new Date(2026,6,28)}];

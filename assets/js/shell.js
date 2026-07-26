@@ -48,7 +48,7 @@
       { id:'mgmt', t:'Owner Cockpit', h:'/app/management/overview', i:'eye' }]},
     { g:'MASTERS', items:[
       { id:'clients',   t:'Clients',          h:'/app/masters/clients',   i:'users' },
-      { id:'vehicles',  t:'Vehicles',         h:'/app/masters/vehicles',  i:'truck', soon:1 },
+      { id:'vehicles',  t:'Vehicles',         h:'/app/masters/vehicles',  i:'truck' },
       { id:'employees', t:'Employees',        h:'/app/masters/employees', i:'id',    soon:1 },
       { id:'vendors',   t:'Vendors',          h:'/app/masters/vendors',   i:'tag',   soon:1 },
       { id:'rates',     t:'Rates',            h:'/app/masters/rates',     i:'rates', soon:1 },

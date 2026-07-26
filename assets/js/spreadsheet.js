@@ -30,7 +30,7 @@
 
   const selHTML = (f, val) => {
     const opts = f==='client' ? TF.clients.map(c=>c.name)
-               : f==='veh'    ? TF.vehicles.map(v=>v.plate)
+               : f==='veh'    ? TF.vehicles.filter(v=>v.st!=='wrk').map(v=>v.plate)
                :                TF.locations;
     return `<select class="cell-sel" data-f="${f}"><option value="">— select —</option>` +
       opts.map(o=>`<option${o===val?' selected':''}>${o}</option>`).join('') + `</select>`;

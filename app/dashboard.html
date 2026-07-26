@@ -20,7 +20,7 @@
   <section class="ph">
     <p class="kicker" data-reveal>CONTROL TOWER · <span id="todayStr">—</span></p>
     <h1 class="display g-h1" data-reveal style="--d:.05s"><span id="greet">GOOD MORNING</span>, <em>HARISH</em></h1>
-    <p class="ph-sub" data-reveal style="--d:.1s">Al Noor Transport LLC · 8 vehicles on the network · <b class="bad">3 invoices overdue</b> · next RTA renewal in 14 days</p>
+    <p class="ph-sub" data-reveal style="--d:.1s">Al Noor Transport LLC · 8 vehicles on the network · <b class="bad">3 invoices overdue</b> · <span id="rtRenew">next RTA renewal in 14 days</span></p>
   </section>
 
   <div class="ticker tk" id="opsTick" data-reveal style="--d:.12s"></div>
@@ -136,6 +136,17 @@
   const g = $('greet');    if(g) g.textContent = dubaiH < 12 ? 'GOOD MORNING' : dubaiH < 17 ? 'GOOD AFTERNOON' : 'GOOD EVENING';
   const t = $('todayStr'); if(t) t.textContent = new Intl.DateTimeFormat('en-GB',
     { timeZone:'Asia/Dubai', weekday:'long', day:'2-digit', month:'long', year:'numeric' }).format(new Date()).toUpperCase();
+
+  /* live fleet-document countdown — reads the same master record as /app/masters/vehicles */
+  (function(){
+    const el = $('rtRenew'); if(!el) return;
+    const DEMO = new Date(2026,6,27,12,0,0);
+    const pd = s => { const p=String(s).slice(0,10).split('-').map(Number); return new Date(p[0],p[1]-1,p[2],12,0,0); };
+    let best=null;
+    (TF.vehicles||[]).forEach(v => { if(v.regExp){ const days=Math.round((pd(v.regExp)-DEMO)/864e5); if(best===null||days<best.days) best={plate:v.plate,days}; } });
+    if(best){ el.textContent = best.days<0 ? ('⚠ RTA REG OVERDUE: '+best.plate) : ('next RTA renewal in '+best.days+' days · '+best.plate);
+      el.style.color = best.days<0 ? 'var(--red)' : best.days<=14 ? 'var(--acc-2)' : 'inherit'; }
+  })();
 
   /* live figures overwrite the static placeholders BEFORE counters run */
   const kpiAlert = document.querySelector('.kpi-alert [data-count]'); if(kpiAlert) kpiAlert.dataset.to = ar.outstanding;

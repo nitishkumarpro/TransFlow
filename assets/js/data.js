@@ -29,14 +29,14 @@ TF.clients = [
 ];
 
 TF.vehicles = [
-  { plate:'B-45823', type:'40FT FLATBED',  driver:'Ahmed Khan',    st:'run',  note:'Jebel Ali → Khalifa Port' },
-  { plate:'B-78214', type:'40FT FLATBED',  driver:'Bilal Hussain', st:'run',  note:'Hamriyah → Abu Dhabi' },
-  { plate:'C-33907', type:'20FT BOX',      driver:'Rajesh Nair',   st:'run',  note:'Al Quoz → Al Ain' },
-  { plate:'D-51442', type:'CHILLED VAN',   driver:'Suresh Menon',  st:'run',  note:'Jebel Ali FZ → Sharjah' },
-  { plate:'B-90112', type:'LOWBED',        driver:'Imran Baloch',  st:'run',  note:'Jebel Ali → Ras Al Khaimah' },
-  { plate:'C-67230', type:'10T TRUCK',     driver:'Yousef Ali',    st:'run',  note:'DIP → Downtown Dubai' },
-  { plate:'D-12876', type:'CURTAINSIDER',  driver:'Manoj Kumar',   st:'wrk',  note:'Workshop — brakes' },
-  { plate:'B-24501', type:'40FT FLATBED',  driver:'Khalid Rehman', st:'wrk',  note:'RTA reg. renewal' },
+  { plate:'B-45823', type:'40FT FLATBED',  driver:'Ahmed Khan',    st:'run',  note:'Jebel Ali → Khalifa Port',  cap:'2×40FT / 30T', acq:2021, value:280000, util:91, moCost:33700, insExp:'2026-11-02', regExp:'2027-03-15', fitExp:'2026-10-10' },
+  { plate:'B-78214', type:'40FT FLATBED',  driver:'Bilal Hussain', st:'run',  note:'Hamriyah → Abu Dhabi',      cap:'2×40FT / 30T', acq:2020, value:265000, util:88, moCost:32000, insExp:'2026-09-20', regExp:'2026-12-01', fitExp:'2026-08-30' },
+  { plate:'C-33907', type:'20FT BOX',      driver:'Rajesh Nair',   st:'run',  note:'Al Quoz → Al Ain',          cap:'1×20FT / 12T', acq:2022, value:150000, util:79, moCost:24900, insExp:'2026-08-18', regExp:'2027-01-10', fitExp:'2026-11-05' },
+  { plate:'D-51442', type:'CHILLED VAN',   driver:'Suresh Menon',  st:'run',  note:'Jebel Ali FZ → Sharjah',    cap:'12T REEFER',     acq:2021, value:320000, util:84, moCost:32100, insExp:'2026-08-05', regExp:'2026-10-22', fitExp:'2026-09-15' },
+  { plate:'B-90112', type:'LOWBED',        driver:'Imran Baloch',  st:'run',  note:'Jebel Ali → Ras Al Khaimah',cap:'45T',            acq:2019, value:410000, util:74, moCost:33700, insExp:'2027-02-14', regExp:'2026-09-30', fitExp:'2026-08-18' },
+  { plate:'C-67230', type:'10T TRUCK',     driver:'Yousef Ali',    st:'run',  note:'DIP → Downtown Dubai',      cap:'10T',            acq:2023, value:120000, util:69, moCost:21300, insExp:'2026-12-12', regExp:'2026-10-05', fitExp:'2026-07-20' },
+  { plate:'D-12876', type:'CURTAINSIDER',  driver:'Manoj Kumar',   st:'wrk',  note:'Workshop — brakes',         cap:'14T',            acq:2022, value:175000, util:0,  moCost:25100, insExp:'2026-09-09', regExp:'2026-08-12', fitExp:'2026-07-30' },
+  { plate:'B-24501', type:'40FT FLATBED',  driver:'Khalid Rehman', st:'wrk',  note:'RTA reg. renewal',          cap:'2×40FT / 30T', acq:2020, value:240000, util:0,  moCost:28000, insExp:'2027-04-01', regExp:'2026-08-08', fitExp:'2026-09-25' },
 ];
 
 TF.jobs = [
@@ -77,13 +77,21 @@ TF.topClients = [
   { label:'Falcon Pack',      value:189600 },
 ];
 
-/* ---- masters override bootstrap: re-apply Clients-master edits/adds everywhere ---- */
+/* ---- masters override bootstrap: re-apply Clients + Vehicles edits/adds everywhere ---- */
 (function(){
   try{
     const ov = JSON.parse(sessionStorage.getItem('tf_clients')||'null');
-    if(!ov) return;
-    if(ov.edits){ (TF.clients||[]).forEach(c=>{ const e=ov.edits[c.id]; if(e){
-      if(e.limit!=null) c.limit=e.limit; if(e.terms!=null) c.terms=e.terms; if(e.hold!=null) c.hold=e.hold; } }); }
-    if(Array.isArray(ov.adds)){ ov.adds.forEach(a=>{ if(!(TF.clients||[]).some(c=>c.id===a.id)) TF.clients.push(a); }); }
+    if(ov){
+      if(ov.edits){ (TF.clients||[]).forEach(c=>{ const e=ov.edits[c.id]; if(e){
+        if(e.limit!=null) c.limit=e.limit; if(e.terms!=null) c.terms=e.terms; if(e.hold!=null) c.hold=e.hold; } }); }
+      if(Array.isArray(ov.adds)){ ov.adds.forEach(a=>{ if(!(TF.clients||[]).some(c=>c.id===a.id)) TF.clients.push(a); }); }
+    }
+  }catch(e){}
+  try{
+    const ov = JSON.parse(sessionStorage.getItem('tf_vehicles')||'null');
+    if(ov){
+      if(ov.edits){ (TF.vehicles||[]).forEach(v=>{ const e=ov.edits[v.plate]; if(e) Object.assign(v, e); }); }
+      if(Array.isArray(ov.adds)){ ov.adds.forEach(a=>{ if(!(TF.vehicles||[]).some(v=>v.plate===a.plate)) TF.vehicles.push(a); }); }
+    }
   }catch(e){}
 })();
