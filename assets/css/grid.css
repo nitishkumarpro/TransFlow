@@ -27,6 +27,7 @@
 .sgrid thead tr.lr th{top:0;background:#DFE4DC;font-size:8.5px;letter-spacing:.1em;color:var(--mut);
   text-align:center;padding:3px 9px}
 .sgrid thead tr.lr th.rn-h{position:sticky;left:0;z-index:5}
+.sgrid thead tr.hr th.rn-h{left:0;z-index:5;border-right:1px solid var(--line-2)!important}
 .sgrid thead tr.hr th{top:23px;border-bottom:2px solid var(--ink);color:var(--ink);font-weight:600}
 th[data-sort]{cursor:pointer;transition:color .15s}
 th[data-sort]:hover{color:var(--acc-2)}
