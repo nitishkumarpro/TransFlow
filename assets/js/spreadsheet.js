@@ -89,7 +89,7 @@
       return `<th class="${s.trim()}" ${c.sort?`data-sort="${c.k}"`:''}>${c.l}</th>`;
     }).join('');
     grid.innerHTML = `<thead><tr class="lr"><th class="rn-h"></th>${letters}</tr>
-      <tr class="hr">${hr}</tr></thead>
+      <tr class="hr"><th class="rn-h"></th>${hr}</tr></thead>
       <tbody>${vis.map(rowHTML).join('')}</tbody>`;
     updateBar(vis);
   }
