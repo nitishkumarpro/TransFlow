@@ -120,34 +120,34 @@
 <script src="/assets/js/shell.js"></script>
 <script>
 (function(){
-  /* greeting + date in Dubai time */
-  const dubaiH = +new Intl.DateTimeFormat('en-GB',{ timeZone:'Asia/Dubai', hour:'numeric', hour12:false }).format(new Date());
-  document.getElementById('greet').textContent = dubaiH < 12 ? 'GOOD MORNING' : dubaiH < 17 ? 'GOOD AFTERNOON' : 'GOOD EVENING';
-  document.getElementById('todayStr').textContent = new Intl.DateTimeFormat('en-GB',
-    { timeZone:'Asia/Dubai', weekday:'long', day:'2-digit', month:'long', year:'numeric' }).format(new Date()).toUpperCase();
-
   TF.fx.reveal();
   TF.fx.counters();
 
-  TF.fx.ticker(document.getElementById('opsTick'), TF.jobs.map(j =>
+  const $ = id => document.getElementById(id);
+  const dubaiH = +new Intl.DateTimeFormat('en-GB',{ timeZone:'Asia/Dubai', hour:'numeric', hour12:false }).format(new Date());
+  const g = $('greet');    if(g) g.textContent = dubaiH < 12 ? 'GOOD MORNING' : dubaiH < 17 ? 'GOOD AFTERNOON' : 'GOOD EVENING';
+  const t = $('todayStr'); if(t) t.textContent = new Intl.DateTimeFormat('en-GB',
+    { timeZone:'Asia/Dubai', weekday:'long', day:'2-digit', month:'long', year:'numeric' }).format(new Date()).toUpperCase();
+
+  const tick = $('opsTick'); if(tick) TF.fx.ticker(tick, TF.jobs.map(j =>
     `<b>${j.id}</b> ${j.veh} · ${j.from} → ${j.to} · ${j.st==='ok'?'DELIVERED ✓':j.st==='run'?'IN TRANSIT':'AWAITING LOAD'}`));
 
-  TF.charts.bars(document.getElementById('revCost'), {
+  const rc = $('revCost'); if(rc) TF.charts.bars(rc, {
     labels: TF.months.labels,
     series: [
-      { name:'REVENUE', color:'var(--teal)', values:TF.months.rev  },
+      { name:'REVENUE', color:'var(--teal)', values:TF.months.rev },
       { name:'COST',    color:'var(--acc)',  values:TF.months.cost },
     ]
   });
-  TF.charts.spark(document.getElementById('sparkRev'),  TF.months.rev,  'var(--teal)');
-  TF.charts.spark(document.getElementById('sparkCost'), TF.months.cost, 'var(--acc)');
+  const sr = $('sparkRev');  if(sr) TF.charts.spark(sr, TF.months.rev,  'var(--teal)');
+  const sc = $('sparkCost'); if(sc) TF.charts.spark(sc, TF.months.cost, 'var(--acc)');
 
-  TF.charts.hbars(document.getElementById('agingBars'),
+  const ab = $('agingBars'); if(ab) TF.charts.hbars(ab,
     TF.aging.map(a => ({ ...a, sub: a.value ? (a.value/TF.kpi.outstanding*100).toFixed(0)+'% OF OUTSTANDING' : 'CLEAR' })));
-  TF.charts.hbars(document.getElementById('topClients'),
+  const tc = $('topClients'); if(tc) TF.charts.hbars(tc,
     TF.topClients.map(c => ({ ...c, sub: (c.value/TF.kpi.ytdRev*100).toFixed(1)+'% OF YTD BILLING' })));
 
-  document.getElementById('fleetBody').innerHTML = TF.vehicles.map(v => `
+  const fb = $('fleetBody'); if(fb) fb.innerHTML = TF.vehicles.map(v => `
     <tr>
       <td class="mono"><b>${v.plate}</b><br><small>${v.type}</small></td>
       <td>${v.driver}</td>
@@ -155,20 +155,20 @@
       <td class="r"><span class="st ${v.st}"><i></i>${v.st==='run'?'ON ROAD':v.st==='wrk'?'WORKSHOP':'ON ROAD'}</span></td>
     </tr>`).join('');
 
-  const stMap = { paid:['ok','PAID'], open:['wait','OPEN'], partial:['run','PARTIAL'], overdue:['bad','OVERDUE'] };
-  document.getElementById('invBody').innerHTML = TF.invoices.map(v => {
-    const [s,l] = stMap[v.st];
-    return `<tr>
-      <td class="mono">${v.no}</td><td>${v.client}</td>
-      <td class="mono">${TF.fmt.dt(v.date)}</td><td class="mono">${TF.fmt.dt(v.due)}</td>
-      <td class="r mono">${TF.fmt.aed(v.amt)}</td>
-      <td class="r"><span class="st ${s}"><i></i>${l}</span></td>
-    </tr>`;
-  }).join('');
+  const ib = $('invBody'); if(ib){
+    const stMap = { paid:['ok','PAID'], open:['wait','OPEN'], partial:['run','PARTIAL'], overdue:['bad','OVERDUE'] };
+    ib.innerHTML = TF.invoices.map(v => {
+      const [s,l] = stMap[v.st];
+      return `<tr>
+        <td class="mono">${v.no}</td><td>${v.client}</td>
+        <td class="mono">${TF.fmt.dt(v.date)}</td><td class="mono">${TF.fmt.dt(v.due)}</td>
+        <td class="r mono">${TF.fmt.aed(v.amt)}</td>
+        <td class="r"><span class="st ${s}"><i></i>${l}</span></td>
+      </tr>`;
+    }).join('');
+  }
 
-  document.getElementById('oneClick').addEventListener('click', () =>
-  location.href = '/app/operations/spreadsheet');
-    TF.fx.toast('⚡ ONE-CLICK INVOICING — the star feature. Live in the next survey build.'));
+  const oc = $('oneClick'); if(oc) oc.addEventListener('click', () => location.href = '/app/operations/spreadsheet');
 })();
 </script>
 </body>
