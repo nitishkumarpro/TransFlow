@@ -33,7 +33,7 @@
     { g:'OVERVIEW', items:[
       { id:'dashboard', t:'Control Tower', h:'/app/dashboard', i:'gauge' }]},
     { g:'OPERATIONS', items:[
-      { id:'spreadsheet', t:'Spreadsheet',          h:'/app/operations/spreadsheet', i:'grid', soon:1 },
+      { id:'spreadsheet', t:'Spreadsheet',          h:'/app/operations/spreadsheet', i:'grid' },
       { id:'invoices',    t:'Invoices',             h:'/app/operations/invoices',    i:'file', soon:1 },
       { id:'soa',         t:'Statement of Account', h:'/app/operations/soa',         i:'doc',  soon:1 }]},
     { g:'FINANCE', items:[
