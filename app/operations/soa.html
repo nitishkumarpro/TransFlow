@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Statement of Account — TRANSFLOW</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%230C161B'/%3E%3Cpath d='M4 8h11l5 4-5 4H4z' fill='%23FF5A1F'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/tokens.css">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/shell.css">
+<link rel="stylesheet" href="/assets/css/billing.css">
+</head>
+<body data-active="soa">
+<main id="page">
+  <div class="hazard-top"></div>
+  <section class="ph">
+    <p class="kicker" data-reveal>STATEMENT OF ACCOUNT · <span id="todayStr">—</span></p>
+    <h1 class="display g-h1" data-reveal style="--d:.05s">SHOW A CLIENT <em>EXACTLY</em><br>WHAT THEY <em>OWE YOU.</em></h1>
+    <p class="ph-sub" data-reveal style="--d:.1s">A running ledger per client — every charge, every receipt, the live balance, and the aging that tells you who to call today. Print it or email it straight from here.</p>
+  </section>
+
+  <div class="soa-bar" data-reveal style="--d:.12s">
+    <label class="tool-srch" style="min-width:260px">
+      <svg viewBox="0 0 24 24" width="14" height="14"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5"/></svg>
+      <select id="clientSel" class="tool-sel" style="border:0;background:none;width:100%;font-weight:600"></select>
+    </label>
+    <span class="tool-sp" style="flex:1"></span>
+    <button class="btn btn-ghost" id="soaPrint">🖨 PRINT STATEMENT</button>
+    <button class="btn btn-acc" id="soaMail">✉ EMAIL TO CLIENT</button>
+  </div>
+
+  <div class="soa-grid">
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <article class="card client-card" data-idx="CLIENT" data-reveal><div class="card-b" id="clientCard"></div></article>
+      <article class="card" data-idx="AGING" data-reveal style="--d:.06s">
+        <div class="card-h"><h3 style="font-size:15px">OUTSTANDING BY AGE</h3></div>
+        <div class="card-b"><div class="aging-tiles" id="agingTiles"></div></div>
+      </article>
+    </div>
+    <article class="card" data-idx="STATEMENT" data-reveal style="--d:.08s">
+      <div class="card-h"><div><p class="kicker">RUNNING LEDGER</p><h3>TRANSACTION STATEMENT</h3></div></div>
+      <div style="overflow:auto"><table class="stmt">
+        <thead><tr><th>DATE</th><th>REFERENCE</th><th>DESCRIPTION</th><th class="r">DEBIT</th><th class="r">CREDIT</th><th class="r">BALANCE</th></tr></thead>
+        <tbody id="stmtBody"></tbody>
+      </table></div>
+    </article>
+  </div>
+</main>
+
+<script src="/assets/js/data.js"></script>
+<script src="/assets/js/fmt.js"></script>
+<script src="/assets/js/fx.js"></script>
+<script src="/assets/js/auth.js"></script>
+<script src="/assets/js/shell.js"></script>
+<script src="/assets/js/soa.js"></script>
+<script>
+  document.getElementById('todayStr').textContent = new Intl.DateTimeFormat('en-GB',
+    { timeZone:'Asia/Dubai', weekday:'long', day:'2-digit', month:'long', year:'numeric' }).format(new Date()).toUpperCase();
+  TF.fx.reveal();
+</script>
+</body>
+</html>

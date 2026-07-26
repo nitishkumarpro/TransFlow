@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Billing Ledger — TRANSFLOW</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%230C161B'/%3E%3Cpath d='M4 8h11l5 4-5 4H4z' fill='%23FF5A1F'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/tokens.css">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/shell.css">
+<link rel="stylesheet" href="/assets/css/billing.css">
+</head>
+<body data-active="invoices">
+<main id="page">
+  <div class="hazard-top"></div>
+  <section class="ph">
+    <p class="kicker" data-reveal>BILLING LEDGER · <span id="todayStr">—</span></p>
+    <h1 class="display g-h1" data-reveal style="--d:.05s">EVERY DIRHAM <em>BILLED,</em><br>EVERY DIRHAM <em>OWED.</em></h1>
+    <p class="ph-sub" data-reveal style="--d:.1s">The complete invoice register. Invoices you raise on the trip sheet land here instantly. Click any line to open its tax invoice, email it, or chase it.</p>
+  </section>
+
+  <div class="btick" id="btick" data-reveal style="--d:.12s"></div>
+
+  <section class="manifest" data-reveal style="--d:.14s">
+    <div class="m-cell"><span class="l">TOTAL RAISED</span><span class="v"><span data-count data-to="0" data-fmt="aed">AED 0</span></span><span class="s" id="mCount">— INVOICES</span></div>
+    <div class="m-cell"><span class="l">COLLECTED</span><span class="v"><span data-count data-to="0" data-fmt="aed">AED 0</span></span><span class="s" id="mCollPct">— % RECOVERED</span></div>
+    <div class="m-cell hot"><span class="l">OUTSTANDING</span><span class="v"><span data-count data-to="0" data-fmt="aed">AED 0</span></span><span class="s">ACROSS OPEN INVOICES</span></div>
+    <div class="m-cell bad"><span class="l">PAST DUE</span><span class="v"><span data-count data-to="0" data-fmt="num">0</span></span><span class="s" id="mOld">OLDEST — DAYS</span></div>
+  </section>
+
+  <article class="card" data-idx="LEDGER" data-reveal style="--d:.16s">
+    <div class="sheet-tools">
+      <label class="tool-srch">
+        <svg viewBox="0 0 24 24" width="14" height="14"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5"/></svg>
+        <input id="srch" type="text" placeholder="Search invoice or client…">
+      </label>
+      <select class="tool-sel" id="fClient"><option value="ALL">ALL CLIENTS</option></select>
+      <div class="fchips">
+        <button class="fchip on" data-st="ALL">ALL</button>
+        <button class="fchip" data-st="open">OPEN</button>
+        <button class="fchip" data-st="partial">PARTIAL</button>
+        <button class="fchip" data-st="overdue">PAST DUE</button>
+        <button class="fchip" data-st="paid">PAID</button>
+      </div>
+      <span class="tool-sp"></span>
+      <button class="btn btn-ghost" id="exportBtn">⤓ EXPORT CSV</button>
+    </div>
+    <div style="overflow:auto">
+      <table class="ledger">
+        <thead><tr>
+          <th data-sort="no">INVOICE</th><th data-sort="client">CLIENT</th>
+          <th data-sort="date">RAISED</th><th data-sort="due">DUE</th>
+          <th class="r" data-sort="amt">AMOUNT</th><th class="r">OUTSTANDING</th><th class="r" data-sort="st">STATUS</th><th></th>
+        </tr></thead>
+        <tbody id="ledgerBody"></tbody>
+      </table>
+    </div>
+  </article>
+</main>
+
+<script src="/assets/js/data.js"></script>
+<script src="/assets/js/fmt.js"></script>
+<script src="/assets/js/fx.js"></script>
+<script src="/assets/js/auth.js"></script>
+<script src="/assets/js/shell.js"></script>
+<script src="/assets/js/invoices.js"></script>
+<script>
+  document.getElementById('todayStr').textContent = new Intl.DateTimeFormat('en-GB',
+    { timeZone:'Asia/Dubai', weekday:'long', day:'2-digit', month:'long', year:'numeric' }).format(new Date()).toUpperCase();
+  document.getElementById('fClient').innerHTML = '<option value="ALL">ALL CLIENTS</option>' +
+    TF.clients.map(c => `<option>${c.name}</option>`).join('');
+  TF.fx.reveal();
+</script>
+</body>
+</html>

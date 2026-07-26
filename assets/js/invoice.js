@@ -113,7 +113,7 @@ TF.invoice = (function(){
     }
     else if(t.closest('#invConfirm')){
       const gen = JSON.parse(sessionStorage.getItem('tf_gen') || '[]');
-      docs.forEach(d => gen.push({ no:d.no, client:d.client, total:d.total, date:d.date }));
+      docs.forEach(d => gen.push({ no:d.no, client:d.client, c:d.c, js:d.js, sub:d.sub, vat:d.vat, total:d.total, date:d.date, due:d.due, terms:d.terms }));
       sessionStorage.setItem('tf_gen', JSON.stringify(gen));
       const total = docs.reduce((a,d)=>a+d.total,0);
       hide();

@@ -120,55 +120,65 @@
 <script src="/assets/js/shell.js"></script>
 <script>
 (function(){
-  TF.fx.reveal();
-  TF.fx.counters();
-
   const $ = id => document.getElementById(id);
+
+  /* Live AR engine if fmt.js is updated; otherwise a static fallback so the page never blanks. */
+  function arData(){
+    if(window.TF && TF.ar){ return TF.ar.all(); }
+    const u = (TF.invoices||[]).map(v => ({ no:v.no, client:v.client, dateISO:v.date, dueISO:v.due, amt:v.amt, effSt:v.st, fresh:false }));
+    return { u, buckets:(TF.aging||[]), outstanding:(TF.kpi&&TF.kpi.outstanding)||0, raised:0, collected:0,
+             overdueCount:u.filter(v=>v.effSt==='overdue').length, oldestDays:97, oldestClient:'Masafi Trading', oldestAmt:29850 };
+  }
+  const ar = arData();
+
+  /* greeting + date (Dubai) */
   const dubaiH = +new Intl.DateTimeFormat('en-GB',{ timeZone:'Asia/Dubai', hour:'numeric', hour12:false }).format(new Date());
   const g = $('greet');    if(g) g.textContent = dubaiH < 12 ? 'GOOD MORNING' : dubaiH < 17 ? 'GOOD AFTERNOON' : 'GOOD EVENING';
   const t = $('todayStr'); if(t) t.textContent = new Intl.DateTimeFormat('en-GB',
     { timeZone:'Asia/Dubai', weekday:'long', day:'2-digit', month:'long', year:'numeric' }).format(new Date()).toUpperCase();
 
+  /* live figures overwrite the static placeholders BEFORE counters run */
+  const kpiAlert = document.querySelector('.kpi-alert [data-count]'); if(kpiAlert) kpiAlert.dataset.to = ar.outstanding;
+  const agingTot = document.querySelector('.aging-total [data-count]'); if(agingTot) agingTot.dataset.to = ar.outstanding;
+  const chip = document.querySelector('.kpi-alert .chip'); if(chip) chip.textContent = ar.overdueCount + ' PAST DUE · OLDEST ' + ar.oldestDays + 'D';
+  const sub  = document.querySelector('.ph-sub .bad'); if(sub) sub.textContent = ar.overdueCount + ' invoices past due';
+  const note = document.querySelector('.alert-note'); if(note) note.textContent = '⚠ OLDEST: ' + (ar.oldestClient||'—').toUpperCase() + ' — ' + ar.oldestDays + ' DAYS · ' + TF.fmt.aed(ar.oldestAmt||0);
+
+  /* ops ticker */
   const tick = $('opsTick'); if(tick) TF.fx.ticker(tick, TF.jobs.map(j =>
     `<b>${j.id}</b> ${j.veh} · ${j.from} → ${j.to} · ${j.st==='ok'?'DELIVERED ✓':j.st==='run'?'IN TRANSIT':'AWAITING LOAD'}`));
 
-  const rc = $('revCost'); if(rc) TF.charts.bars(rc, {
-    labels: TF.months.labels,
-    series: [
-      { name:'REVENUE', color:'var(--teal)', values:TF.months.rev },
-      { name:'COST',    color:'var(--acc)',  values:TF.months.cost },
-    ]
-  });
+  /* charts */
+  const rc = $('revCost'); if(rc) TF.charts.bars(rc, { labels:TF.months.labels, series:[
+    { name:'REVENUE', color:'var(--teal)', values:TF.months.rev },
+    { name:'COST',    color:'var(--acc)',  values:TF.months.cost } ]});
   const sr = $('sparkRev');  if(sr) TF.charts.spark(sr, TF.months.rev,  'var(--teal)');
   const sc = $('sparkCost'); if(sc) TF.charts.spark(sc, TF.months.cost, 'var(--acc)');
 
-  const ab = $('agingBars'); if(ab) TF.charts.hbars(ab,
-    TF.aging.map(a => ({ ...a, sub: a.value ? (a.value/TF.kpi.outstanding*100).toFixed(0)+'% OF OUTSTANDING' : 'CLEAR' })));
+  const ab = $('agingBars'); if(ab) TF.charts.hbars(ab, (ar.buckets||[]).map(b =>
+    ({ ...b, sub:(b.value && ar.outstanding) ? (b.value/ar.outstanding*100).toFixed(0)+'% OF OUTSTANDING' : 'CLEAR' })));
   const tc = $('topClients'); if(tc) TF.charts.hbars(tc,
-    TF.topClients.map(c => ({ ...c, sub: (c.value/TF.kpi.ytdRev*100).toFixed(1)+'% OF YTD BILLING' })));
+    TF.topClients.map(c => ({ ...c, sub:(c.value/TF.kpi.ytdRev*100).toFixed(1)+'% OF YTD BILLING' })));
 
   const fb = $('fleetBody'); if(fb) fb.innerHTML = TF.vehicles.map(v => `
-    <tr>
-      <td class="mono"><b>${v.plate}</b><br><small>${v.type}</small></td>
-      <td>${v.driver}</td>
+    <tr><td class="mono"><b>${v.plate}</b><br><small>${v.type}</small></td><td>${v.driver}</td>
       <td class="mono" style="font-size:11px">${v.note}</td>
-      <td class="r"><span class="st ${v.st}"><i></i>${v.st==='run'?'ON ROAD':v.st==='wrk'?'WORKSHOP':'ON ROAD'}</span></td>
-    </tr>`).join('');
+      <td class="r"><span class="st ${v.st}"><i></i>${v.st==='run'?'ON ROAD':v.st==='wrk'?'WORKSHOP':'ON ROAD'}</span></td></tr>`).join('');
 
   const ib = $('invBody'); if(ib){
-    const stMap = { paid:['ok','PAID'], open:['wait','OPEN'], partial:['run','PARTIAL'], overdue:['bad','OVERDUE'] };
-    ib.innerHTML = TF.invoices.map(v => {
-      const [s,l] = stMap[v.st];
-      return `<tr>
-        <td class="mono">${v.no}</td><td>${v.client}</td>
-        <td class="mono">${TF.fmt.dt(v.date)}</td><td class="mono">${TF.fmt.dt(v.due)}</td>
-        <td class="r mono">${TF.fmt.aed(v.amt)}</td>
-        <td class="r"><span class="st ${s}"><i></i>${l}</span></td>
-      </tr>`;
-    }).join('');
+    const stMap = { paid:['ok','PAID'], open:['wait','OPEN'], partial:['run','PARTIAL'], overdue:['bad','PAST DUE'] };
+    ib.innerHTML = (ar.u||[]).slice(0,7).map(v => { const [s,l] = stMap[v.effSt] || ['wait','OPEN']; return `<tr>
+      <td class="mono">${v.no}${v.fresh?'<em style="font-style:normal;font-family:var(--mono);font-size:7.5px;letter-spacing:.14em;background:var(--teal);color:#fff;padding:1px 5px;border-radius:2px;margin-left:6px">NEW</em>':''}</td>
+      <td>${v.client}</td>
+      <td class="mono">${TF.fmt.dt(v.dateISO)}</td><td class="mono">${TF.fmt.dt(v.dueISO)}</td>
+      <td class="r mono">${TF.fmt.aed(v.amt)}</td>
+      <td class="r"><span class="st ${s}"><i></i>${l}</span></td></tr>`; }).join('');
   }
 
   const oc = $('oneClick'); if(oc) oc.addEventListener('click', () => location.href = '/app/operations/spreadsheet');
+
+  TF.fx.reveal();
+  TF.fx.counters();   /* runs once, after the dynamic data-to values are set */
 })();
 </script>
 </body>

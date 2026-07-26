@@ -34,8 +34,8 @@
       { id:'dashboard', t:'Control Tower', h:'/app/dashboard', i:'gauge' }]},
     { g:'OPERATIONS', items:[
       { id:'spreadsheet', t:'Spreadsheet',          h:'/app/operations/spreadsheet', i:'grid' },
-      { id:'invoices',    t:'Invoices',             h:'/app/operations/invoices',    i:'file', soon:1 },
-      { id:'soa',         t:'Statement of Account', h:'/app/operations/soa',         i:'doc',  soon:1 }]},
+      { id:'invoices',    t:'Invoices',             h:'/app/operations/invoices',    i:'file' },
+      { id:'soa',         t:'Statement of Account', h:'/app/operations/soa',         i:'doc' }]},
     { g:'FINANCE', items:[
       { id:'receivables', t:'Receivables', h:'/app/finance/receivables', i:'rin',  soon:1 },
       { id:'payables',    t:'Payables',    h:'/app/finance/payables',    i:'rout', soon:1 },
@@ -123,7 +123,6 @@
   document.getElementById('coSel').addEventListener('change', e =>
     TF.fx.toast('MULTI-TENANT DEMO — ' + e.target.value.toUpperCase() + ' loads its own data in the pilot build'));
 
-  /* safety net — content must NEVER stay invisible, even if a page's own script errors */
+  /* safety net — reveal only; each page owns its own counters() after setting live figures */
   TF.fx.reveal();
-  TF.fx.counters();
 })();
