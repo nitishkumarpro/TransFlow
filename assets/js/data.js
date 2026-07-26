@@ -76,3 +76,14 @@ TF.topClients = [
   { label:'Al Ghurair Foods', value:251200 },
   { label:'Falcon Pack',      value:189600 },
 ];
+
+/* ---- masters override bootstrap: re-apply Clients-master edits/adds everywhere ---- */
+(function(){
+  try{
+    const ov = JSON.parse(sessionStorage.getItem('tf_clients')||'null');
+    if(!ov) return;
+    if(ov.edits){ (TF.clients||[]).forEach(c=>{ const e=ov.edits[c.id]; if(e){
+      if(e.limit!=null) c.limit=e.limit; if(e.terms!=null) c.terms=e.terms; if(e.hold!=null) c.hold=e.hold; } }); }
+    if(Array.isArray(ov.adds)){ ov.adds.forEach(a=>{ if(!(TF.clients||[]).some(c=>c.id===a.id)) TF.clients.push(a); }); }
+  }catch(e){}
+})();
