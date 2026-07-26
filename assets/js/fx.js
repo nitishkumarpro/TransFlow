@@ -1,16 +1,34 @@
 window.TF = window.TF || {};
 TF.fx = {
   reveal(){
-    const io = new IntersectionObserver(es => es.forEach(e => {
-      if(e.isIntersecting){ e.target.classList.add('rv'); io.unobserve(e.target); }
-    }), { threshold:.12 });
-    document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+    const els = [...document.querySelectorAll('[data-reveal]:not(.rv)')];
+    if(!els.length) return;
+    const show = el => el.classList.add('rv');
+    if(!('IntersectionObserver' in window)){ els.forEach(show); return; }
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+    const io = new IntersectionObserver((entries) => entries.forEach(e => {
+      if(e.isIntersecting){ show(e.target); io.unobserve(e.target); }
+    }), { threshold:.12, rootMargin:'0px 0px -6% 0px' });
+    els.forEach(el => {
+      const r = el.getBoundingClientRect();
+      if(r.top < vh && r.bottom > 0) show(el);   /* on screen now → show, no flash */
+      else io.observe(el);                        /* below fold → animate on scroll */
+    });
+    setTimeout(() => els.forEach(show), 1600);    /* ultimate fail-safe */
   },
   counters(){
-    const io = new IntersectionObserver(es => es.forEach(e => {
-      if(e.isIntersecting){ TF.fx._run(e.target); io.unobserve(e.target); }
+    const els = [...document.querySelectorAll('[data-count]')];
+    if(!els.length) return;
+    const run = el => TF.fx._run(el);
+    if(!('IntersectionObserver' in window)){ els.forEach(run); return; }
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+    const io = new IntersectionObserver((entries) => entries.forEach(e => {
+      if(e.isIntersecting){ run(e.target); io.unobserve(e.target); }
     }), { threshold:.4 });
-    document.querySelectorAll('[data-count]').forEach(el => io.observe(el));
+    els.forEach(el => {
+      const r = el.getBoundingClientRect();
+      if(r.top < vh && r.bottom > 0) run(el); else io.observe(el);
+    });
   },
   _run(el){
     const to = +el.dataset.to, fmt = el.dataset.fmt, dec = +(el.dataset.dec||0);
@@ -23,11 +41,13 @@ TF.fx = {
     requestAnimationFrame(step);
   },
   clock(el){
+    if(!el) return;
     const f = new Intl.DateTimeFormat('en-GB',{ timeZone:'Asia/Dubai', hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false });
     const tick = () => el.textContent = f.format(new Date()) + ' GST';
     tick(); setInterval(tick, 1000);
   },
   ticker(el, items){
+    if(!el) return;
     const html = items.map(i => `<span>${i}</span>`).join('');
     el.innerHTML = `<div class="ticker-track">${html}${html}</div>`;
   },
