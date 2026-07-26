@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Collections — TRANSFLOW</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%230C161B'/%3E%3Cpath d='M4 8h11l5 4-5 4H4z' fill='%23FF5A1F'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/tokens.css">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/shell.css">
+<link rel="stylesheet" href="/assets/css/receivables.css">
+</head>
+<body data-active="receivables">
+<main id="page">
+  <div class="hazard-top"></div>
+
+  <section class="ph">
+    <p class="kicker" data-reveal>COLLECTIONS · <span id="todayStr">—</span></p>
+    <h1 class="display g-h1" data-reveal style="--d:.05s">STOP CHASING.<br>START <em>COLLECTING.</em></h1>
+    <p class="ph-sub" data-reveal style="--d:.1s">Every overdue dirham, ranked by who to call first. Log the call, send the reminder, lock in the promise — and watch the red turn to green. Nothing slips, nobody gets forgotten.</p>
+  </section>
+
+  <div class="btick" id="btick" data-reveal style="--d:.12s"></div>
+
+  <section class="manifest" data-reveal style="--d:.14s">
+    <div class="m-cell hot"><span class="l">TO COLLECT · OVERDUE</span><span class="v" id="mCollect">AED 0</span><span class="s">ACROSS OVERDUE ACCOUNTS</span></div>
+    <div class="m-cell"><span class="l">ACCOUNTS TO CHASE</span><span class="v" id="mAccounts">0</span><span class="s">NEED ACTION NOW</span></div>
+    <div class="m-cell bad"><span class="l">OLDEST</span><span class="v"><span id="mOldest">0</span>D</span><span class="s">DAYS OUTSTANDING</span></div>
+    <div class="m-cell"><span class="l">PROMISED</span><span class="v" id="mPromised">AED 0</span><span class="s">COMMITMENTS LOGGED</span></div>
+    <div class="m-cell good"><span class="l">RECOVERED</span><span class="v" id="mRec">AED 0</span><span class="s">THIS DEMO SESSION</span></div>
+  </section>
+
+  <div class="cols">
+    <div class="col-main">
+      <article class="card" data-idx="QUEUE" data-reveal style="--d:.16s">
+        <header class="card-h"><div><p class="kicker">PRIORITISED</p><h3>THE CHASE QUEUE — CALL THESE FIRST</h3></div></header>
+        <div class="card-b" id="queue"></div>
+      </article>
+      <article class="card" data-idx="AHEAD" data-reveal style="--d:.2s">
+        <header class="card-h"><div><p class="kicker">PROACTIVE</p><h3>DUE THIS WEEK — GET AHEAD OF IT</h3></div></header>
+        <div class="card-b" id="dueSoon"></div>
+      </article>
+    </div>
+
+    <aside class="col-side">
+      <article class="card clip" data-idx="TODAY" data-reveal style="--d:.18s">
+        <header class="card-h"><h3 style="font-size:16px">TODAY'S CALL LIST</h3></header>
+        <div class="card-b" id="callList"></div>
+      </article>
+      <article class="card" data-idx="PROMISES" data-reveal style="--d:.22s">
+        <header class="card-h"><h3 style="font-size:16px">PROMISES TO PAY</h3></header>
+        <div class="card-b" id="promises"></div>
+      </article>
+    </aside>
+  </div>
+</main>
+
+<!-- log-a-chase modal -->
+<div class="ovl" id="logOvl">
+  <div class="modal">
+    <header class="modal-h">
+      <div><p class="kicker">LOG A CHASE</p><h3 id="logTitle">—</h3></div>
+      <button class="modal-x" id="logClose">✕</button>
+    </header>
+    <div class="modal-b">
+      <div class="fld"><label>ACTION</label>
+        <select id="logAct"><option>Phone call</option><option>Email sent</option><option>WhatsApp</option><option>Site visit</option><option>Spoke to owner</option></select>
+      </div>
+      <div class="fld"><label>NOTES</label>
+        <textarea id="logNote" rows="3" placeholder="e.g. Spoke to Juma — acknowledged, arranging transfer this week…"></textarea>
+      </div>
+      <div class="fld"><label>PROMISED TO PAY BY (OPTIONAL)</label>
+        <input type="date" id="logPromise">
+      </div>
+    </div>
+    <footer class="modal-f">
+      <button class="btn btn-ghost" id="logCancel">CANCEL</button>
+      <button class="btn btn-acc" id="logSave">SAVE LOG →</button>
+    </footer>
+  </div>
+</div>
+
+<!-- reminder preview modal -->
+<div class="ovl" id="remOvl">
+  <div class="modal">
+    <header class="modal-h">
+      <div><p class="kicker">SEND REMINDER</p><h3 id="remTitle">—</h3></div>
+      <div class="chan">
+        <button class="chan-b on" data-ch="wa">💬 WHATSAPP</button>
+        <button class="chan-b" data-ch="mail">✉ EMAIL</button>
+      </div>
+      <button class="modal-x" id="remClose">✕</button>
+    </header>
+    <div class="modal-b">
+      <div class="recip mono" id="remRecip"></div>
+      <div class="msg-wrap wa" id="msgWrap">
+        <div class="msg-subj mono" id="remSubject"></div>
+        <textarea id="remMsg" rows="13"></textarea>
+        <div class="msg-foot mono"><span id="remCount"></span><span>EDITABLE · PERSONALISE BEFORE SENDING</span></div>
+      </div>
+    </div>
+    <footer class="modal-f">
+      <span class="mono">SENDS AS HARISH S. · AL NOOR TRANSPORT LLC</span>
+      <button class="btn btn-acc" id="remSend">SEND REMINDER →</button>
+    </footer>
+  </div>
+</div>
+
+<script src="/assets/js/data.js"></script>
+<script src="/assets/js/fmt.js"></script>
+<script src="/assets/js/fx.js"></script>
+<script src="/assets/js/auth.js"></script>
+<script src="/assets/js/shell.js"></script>
+<script src="/assets/js/receivables.js"></script>
+<script>
+  document.getElementById('todayStr').textContent = new Intl.DateTimeFormat('en-GB',
+    { timeZone:'Asia/Dubai', weekday:'long', day:'2-digit', month:'long', year:'numeric' }).format(new Date()).toUpperCase();
+</script>
+</body>
+</html>

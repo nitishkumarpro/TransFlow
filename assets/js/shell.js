@@ -37,7 +37,7 @@
       { id:'invoices',    t:'Invoices',             h:'/app/operations/invoices',    i:'file' },
       { id:'soa',         t:'Statement of Account', h:'/app/operations/soa',         i:'doc' }]},
     { g:'FINANCE', items:[
-      { id:'receivables', t:'Receivables', h:'/app/finance/receivables', i:'rin',  soon:1 },
+      { id:'receivables', t:'Receivables', h:'/app/finance/receivables', i:'rin' },
       { id:'payables',    t:'Payables',    h:'/app/finance/payables',    i:'rout', soon:1 },
       { id:'costs',       t:'Cost Entry',  h:'/app/finance/costs',       i:'fuel', soon:1 },
       { id:'salaries',    t:'Salaries',    h:'/app/finance/salaries',    i:'pay',  soon:1 },
