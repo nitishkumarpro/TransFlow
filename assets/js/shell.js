@@ -122,8 +122,6 @@
   document.getElementById('scrim').addEventListener('click', () => document.body.classList.remove('side-open'));
   document.getElementById('coSel').addEventListener('change', e =>
     TF.fx.toast('MULTI-TENANT DEMO — ' + e.target.value.toUpperCase() + ' loads its own data in the pilot build'));
-    document.getElementById('coSel').addEventListener('change', e =>
-    TF.fx.toast('MULTI-TENANT DEMO — ' + e.target.value.toUpperCase() + ' loads its own data in the pilot build'));
 
   /* safety net — content must NEVER stay invisible, even if a page's own script errors */
   TF.fx.reveal();
