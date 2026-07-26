@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TRANSFLOW ERP — Gate Pass</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%230C161B'/%3E%3Cpath d='M4 8h11l5 4-5 4H4z' fill='%23FF5A1F'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/tokens.css">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/pages/login.css">
+</head>
+<body>
+<div class="gate">
+
+  <section class="gate-l">
+    <div class="hazard"></div>
+    <div class="g-brand">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M3 7h12l6 5-6 5H3z" fill="#FF5A1F" stroke="#0C161B" stroke-width="1.2"/><path d="M7 10.5h6M7 13.5h4" stroke="#0C161B" stroke-width="1.4"/></svg>
+      <span><b class="display">TRANSFLOW</b><small class="mono">ERP · UAE FREIGHT & TRANSPORT</small></span>
+    </div>
+
+    <h1 class="g-h" data-reveal>FREIGHT MOVES.<br><em>PAPERWORK</em><br><span class="out">SHOULDN'T LAG.</span></h1>
+    <p class="g-sub" data-reveal style="--d:.08s">One spreadsheet in. Invoices, statements, VAT and every truck's profit out. Built on 27 years of UAE transport know-how.</p>
+
+    <div class="route" data-reveal style="--d:.14s">
+      <div class="route-h"><span>ROUTE TF-01 · LIVE</span><span>ETA 16:42 GST</span></div>
+      <svg viewBox="0 0 440 92" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <path id="rt" class="dash" d="M22 62 C 130 18, 300 104, 418 58"/>
+        <circle cx="22" cy="62" r="5" fill="#0E7C66"/>
+        <circle cx="418" cy="58" r="5" fill="#FF5A1F"/>
+        <circle r="5" fill="#FF5A1F">
+          <animateMotion dur="4.5s" repeatCount="indefinite"><mpath href="#rt" xlink:href="#rt"/></animateMotion>
+        </circle>
+        <text x="22" y="84">JEBEL ALI PORT</text>
+        <text x="418" y="84" text-anchor="end">KHALIFA PORT · ABU DHABI</text>
+      </svg>
+    </div>
+
+    <div class="g-stats" data-reveal style="--d:.2s">
+      <div><b>8</b><span>VEHICLES</span></div>
+      <div><b>7</b><span>ACTIVE CLIENTS</span></div>
+      <div><b>96.4%</b><span>ON-TIME FY26</span></div>
+      <div><b>2</b><span>COMPANIES</span></div>
+    </div>
+
+    <div class="g-tick" id="gateTick"></div>
+  </section>
+
+  <section class="gate-r">
+    <form class="pass" id="gateForm" data-reveal style="--d:.1s">
+      <span class="pass-rib">SURVEY BUILD</span>
+      <div class="pass-h">
+        <svg width="26" height="26" viewBox="0 0 24 24"><rect width="24" height="24" fill="#0C161B"/><path d="M4 8h11l5 4-5 4H4z" fill="#FF5A1F"/></svg>
+        <span class="mono">FORM TF-01 · GATE PASS</span>
+      </div>
+      <div class="pass-b">
+        <h1 class="display">ENTER TERMINAL</h1>
+        <p>Sign in to the TransFlow control tower. Any credentials are accepted in this survey build.</p>
+        <div class="fld"><label>COMPANY</label><select id="coSel"></select></div>
+        <div class="fld"><label>USER ID</label><input id="uid" type="text" placeholder="e.g. HARISH" autocomplete="off"></div>
+        <div class="fld"><label>PASSWORD</label><input id="pw" type="password" placeholder="••••••••"></div>
+        <button class="btn btn-acc" type="submit">CLEAR GATE →</button>
+      </div>
+      <div class="pass-f">
+        <div class="barcode"></div>
+        <small>AUTH-TF-003 · PROTOTYPE v0.3 · 26 JUL 2026 · FOR PROSPECT EVALUATION ONLY</small>
+      </div>
+    </form>
+  </section>
+
+</div>
+<script src="/assets/js/data.js"></script>
+<script src="/assets/js/fmt.js"></script>
+<script src="/assets/js/fx.js"></script>
+<script src="/assets/js/auth.js"></script>
+<script>
+  TF.fx.reveal();
+  TF.fx.ticker(document.getElementById('gateTick'), TF.jobs.map(j =>
+    `<b>${j.id}</b> · ${j.veh} · ${j.from} → ${j.to} · ${j.st==='ok'?'DELIVERED ✓':j.st==='run'?'IN TRANSIT':'AWAITING LOAD'}`));
+</script>
+</body>
+</html>
