@@ -58,7 +58,7 @@
       { id:'rvc',  t:'Revenue vs Cost',       h:'/app/reports/revenue-vs-cost',      i:'chart',  soon:1 },
       { id:'crev', t:'Client Revenue',        h:'/app/reports/client-revenue',       i:'chart',  soon:1 },
       { id:'salc', t:'Salaries & Commissions',h:'/app/reports/salaries-commissions', i:'pay',    soon:1 },
-      { id:'vatr', t:'VAT Report',            h:'/app/reports/vat-report',           i:'shield', soon:1 },
+      { id:'vatr', t:'VAT Report',            h:'/app/reports/vat-report',           i:'shield' },
       { id:'ctax', t:'Corporate Tax',         h:'/app/reports/corporate-tax',        i:'tax',    soon:1 }]},
     { g:'ADMIN', items:[
       { id:'users', t:'Users',       h:'/app/admin/users',       i:'key',  soon:1 },

@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VAT Return — TRANSFLOW</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%230C161B'/%3E%3Cpath d='M4 8h11l5 4-5 4H4z' fill='%23FF5A1F'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/tokens.css">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/shell.css">
+<link rel="stylesheet" href="/assets/css/vat.css">
+</head>
+<body data-active="vatr">
+<main id="page">
+  <div class="hazard-top"></div>
+
+  <section class="ph">
+    <p class="kicker" data-reveal>REPORTS · FEDERAL TAX AUTHORITY · <span id="todayStr">—</span></p>
+    <h1 class="display g-h1" data-reveal style="--d:.05s">THE VAT RETURN.<br><em>ALREADY FILLED IN.</em></h1>
+    <p class="ph-sub" data-reveal style="--d:.1s">Form VAT201, computed straight from your invoices and your costs — output tax, recoverable input tax, and the net you pay or reclaim. TransFlow already separates the recoverable from the non-recoverable, so the numbers your agent sees are the numbers the FTA gets.</p>
+  </section>
+
+  <div class="btick" id="btick" data-reveal style="--d:.12s"></div>
+
+  <!-- filing desk-plate -->
+  <section class="filing" data-reveal style="--d:.14s">
+    <div class="filing-l">
+      <div class="trn"><span class="mono">TRN</span><b id="fTRN">—</b></div>
+      <div class="seg" id="seg">
+        <button class="seg-b" data-q="Q1">Q1 · JAN–MAR</button>
+        <button class="seg-b" data-q="Q2">Q2 · APR–JUN</button>
+        <button class="seg-b on" data-q="Q3">Q3 · JUL–SEP</button>
+      </div>
+      <div class="filing-per"><b id="fPeriod">—</b><span class="mono" id="fSub">—</span></div>
+    </div>
+    <div class="filing-r">
+      <span class="dayschip" id="fDays">—</span>
+      <span class="stchip" id="fStatus">—</span>
+      <button class="capex" id="capex">＋ FLEET EXPANSION (2 TRUCKS)</button>
+      <button class="btn btn-ghost" id="markFiled">✓ MARK RETURN FILED</button>
+    </div>
+  </section>
+
+  <!-- net hero + position -->
+  <section class="hero-row" data-reveal style="--d:.16s">
+    <article class="netcard" id="netcard">
+      <div class="net-ribbon" id="netRibbon">—</div>
+      <div class="net-stamp" id="netStamp" hidden>FILED</div>
+      <p class="kicker" id="netKicker">NET VAT POSITION</p>
+      <div class="net-val display" id="netVal">AED 0</div>
+      <div class="net-arith mono" id="netArith">BOX 8 − BOX 9</div>
+      <div class="net-due mono" id="netDue">—</div>
+      <div class="net-acts">
+        <button class="btn btn-acc" id="netPrimary">—</button>
+        <button class="btn btn-ghost" id="expXml">⤓ VAT201 XML</button>
+        <button class="btn btn-ghost" id="expXlsx">⤓ WORKPAPER</button>
+        <button class="btn btn-ghost" id="vPrint">🖨 PRINT</button>
+      </div>
+    </article>
+
+    <article class="poscard card" data-idx="POSITION">
+      <header class="card-h"><div><p class="kicker">THE RECONCILIATION</p><h3>OUTPUT VS INPUT</h3></div></header>
+      <div class="card-b">
+        <div class="pos-rows">
+          <div class="pos-row out"><span>BOX 8 · OUTPUT TAX</span><b id="posOut">AED 0</b></div>
+          <div class="pos-row in"><span>BOX 9 · INPUT TAX</span><b id="posIn">AED 0</b></div>
+        </div>
+        <div class="tug"><span class="tug-f" id="tugF"></span><span class="tug-mk"></span></div>
+        <div class="tug-leg mono"><span>OWED TO FTA</span><span>RECLAIM FROM FTA</span></div>
+        <div class="checks">
+          <div class="check ok" id="chkOut">Σ per-invoice VAT = BOX 2 ✓</div>
+          <div class="check ok" id="chkIn">Σ per-line input VAT = BOX 9 ✓</div>
+          <div class="check note">VAT ON SUPPLY DATE — NOT COLLECTION</div>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- emirate split (boxes 1a-1g) -->
+  <article class="card emstrip-card" data-idx="1a–1g" data-reveal style="--d:.18s">
+    <header class="card-h"><div><p class="kicker">BOX 1a–1g</p><h3>STANDARD-RATED SUPPLIES BY EMIRATE</h3></div>
+      <span class="mono em-note">PLACE-OF-SUPPLY SPLIT · AUTO ON FILING</span></header>
+    <div class="card-b">
+      <div class="em-bar" id="emBar"></div>
+      <div class="em-leg mono" id="emLeg"></div>
+    </div>
+  </article>
+
+  <!-- the form -->
+  <article class="card form-card" data-idx="VAT201" data-reveal style="--d:.2s">
+    <header class="card-h"><div><p class="kicker">FTA VAT RETURN</p><h3>FORM 201 — TAX PERIOD <span id="formPeriod">—</span></h3></div></header>
+    <div class="card-b"><div class="vgrid" id="vboxGrid"></div></div>
+  </article>
+
+  <!-- schedules -->
+  <section class="sched-row" data-reveal style="--d:.22s">
+    <article class="card sched" data-idx="OUTPUT">
+      <header class="card-h"><div><p class="kicker">OUTPUT TAX · 5%</p><h3>SUPPLIES THIS PERIOD</h3></div>
+        <span class="mono src-c" id="outCount">—</span></header>
+      <div class="card-b" id="outList"></div>
+    </article>
+    <article class="card sched" data-idx="INPUT">
+      <header class="card-h"><div><p class="kicker">INPUT TAX</p><h3>RECOVERABLE VS NON-RECOVERABLE</h3></div>
+        <span class="mono src-c" id="inCount">—</span></header>
+      <div class="card-b" id="inBars"></div>
+    </article>
+  </section>
+
+  <div class="roadmap mono" data-reveal style="--d:.24s">
+    <span class="rm-l">ALSO FILED FROM THIS SAME DATA</span>
+    <button class="rm-chip pilot" data-rm="ctax">CORPORATE TAX · FORM CT200</button>
+    <button class="rm-chip pilot" data-rm="esr">ECONOMIC SUBSTANCE (ESR)</button>
+    <button class="rm-chip pilot" data-rm="wht">WITHHOLDING TAX</button>
+  </div>
+  <p class="disc mono" data-reveal style="--d:.26s">LAYOUT MIRRORS FTA VAT RETURN FORM 201 · ALL DOMESTIC FREIGHT STANDARD-RATED (5%) · ZERO-RATED EXPORTS / EXEMPT / REVERSE-CHARGE = 0 THIS PERIOD · FIGURES ILLUSTRATIVE — CONFIRM WITH YOUR TAX AGENT · NOT A TAX DOCUMENT</p>
+
+</main>
+
+<script src="/assets/js/data.js"></script>
+<script src="/assets/js/fmt.js"></script>
+<script src="/assets/js/fx.js"></script>
+<script src="/assets/js/auth.js"></script>
+<script src="/assets/js/shell.js"></script>
+<script src="/assets/js/vat.js"></script>
+<script>
+  document.getElementById('todayStr').textContent = new Intl.DateTimeFormat('en-GB',
+    { timeZone:'Asia/Dubai', weekday:'long', day:'2-digit', month:'long', year:'numeric' }).format(new Date()).toUpperCase();
+</script>
+</body>
+</html>
