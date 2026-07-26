@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Clients — TRANSFLOW</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%230C161B'/%3E%3Cpath d='M4 8h11l5 4-5 4H4z' fill='%23FF5A1F'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/tokens.css">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/shell.css">
+<link rel="stylesheet" href="/assets/css/masters.css">
+</head>
+<body data-active="clients">
+<main id="page">
+  <div class="hazard-top"></div>
+
+  <section class="ph">
+    <p class="kicker" data-reveal>MASTERS · CUSTOMER LEDGER · <span id="todayStr">—</span></p>
+    <h1 class="display g-h1" data-reveal style="--d:.05s">YOUR CUSTOMERS.<br><em>YOUR RULES.</em></h1>
+    <p class="ph-sub" data-reveal style="--d:.1s">Every client, with the credit limit and terms you set — and the live exposure the rest of the business measures against them. Change a rule here and the Statement of Account, the Collections queue and the trip sheet all obey it. This is the one record the whole system reads.</p>
+  </section>
+
+  <div class="btick" id="btick" data-reveal style="--d:.12s"></div>
+
+  <section class="manifest" data-reveal style="--d:.14s">
+    <div class="m-cell"><span class="l">CREDIT EXTENDED</span><span class="v" id="mExt">AED 0</span><span class="s">SUM OF ALL LIMITS</span></div>
+    <div class="m-cell hot"><span class="l">EXPOSURE NOW</span><span class="v" id="mExp">AED 0</span><span class="s">OUTSTANDING ACROSS CLIENTS</span></div>
+    <div class="m-cell" id="mUtilCell"><span class="l">BOOK UTILISATION</span><span class="v" id="mUtil">0%</span><span class="s">EXPOSURE ÷ CREDIT</span></div>
+    <div class="m-cell bad"><span class="l">AT / OVER LIMIT</span><span class="v" id="mOver">0</span><span class="s">NEED A DECISION</span></div>
+    <div class="m-cell" id="mConcCell"><span class="l">TOP CLIENT SHARE</span><span class="v" id="mConc">0%</span><span class="s" id="mConcName">CONCENTRATION</span></div>
+  </section>
+
+  <section class="port-row" data-reveal style="--d:.16s">
+    <article class="card watch-card" data-idx="WATCH">
+      <header class="card-h"><div><p class="kicker">CREDIT DESK · MORNING LIST</p><h3>CREDIT WATCH</h3></div>
+        <span class="watch-n mono" id="watchN">—</span></header>
+      <div class="card-b" id="watchList"></div>
+    </article>
+
+    <article class="card conc-card" data-idx="CONC">
+      <header class="card-h"><div><p class="kicker">RISK · DON'T LET ONE CLIENT BE YOUR BUSINESS</p><h3>REVENUE CONCENTRATION</h3></div></header>
+      <div class="card-b">
+        <div class="conc-bar" id="concBar"></div>
+        <div class="conc-leg" id="concLeg"></div>
+        <p class="conc-note mono" id="concNote">—</p>
+      </div>
+    </article>
+  </section>
+
+  <article class="card dir-card" data-idx="DIRECTORY" data-reveal style="--d:.18s">
+    <header class="card-h">
+      <div><p class="kicker">CUSTOMER DIRECTORY</p><h3>ALL ACCOUNTS</h3></div>
+      <div class="dir-tools">
+        <label class="tool-srch">
+          <svg viewBox="0 0 24 24" width="14" height="14"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5"/></svg>
+          <input id="srch" type="text" placeholder="Search name, TRN, contact, emirate…">
+        </label>
+        <div class="fchips" id="fChips">
+          <button class="fchip on" data-f="ALL">ALL</button>
+          <button class="fchip" data-f="OVER">OVER LIMIT</button>
+          <button class="fchip" data-f="NEAR">NEAR LIMIT</button>
+          <button class="fchip" data-f="OK">HEALTHY</button>
+          <button class="fchip" data-f="HOLD">ON HOLD</button>
+        </div>
+        <div class="fchips" id="sChips">
+          <button class="fchip on" data-s="util">UTILISATION ▼</button>
+          <button class="fchip" data-s="exp">EXPOSURE ▼</button>
+          <button class="fchip" data-s="rev">REVENUE ▼</button>
+          <button class="fchip" data-s="name">NAME ▲</button>
+        </div>
+        <button class="btn btn-acc" id="newBtn">＋ NEW CLIENT</button>
+      </div>
+    </header>
+    <div class="card-b pad0">
+      <div class="cl-head mono">
+        <span class="cl-h-id">ACCOUNT</span>
+        <span class="cl-h-who">CLIENT · CONTACT</span>
+        <span class="cl-h-exp">CREDIT EXPOSURE</span>
+        <span class="cl-h-age">AGING</span>
+        <span class="cl-h-rev">YTD · SHARE</span>
+        <span class="cl-h-st">STATUS</span>
+        <span class="cl-h-act"></span>
+      </div>
+      <div id="dirList"></div>
+    </div>
+  </article>
+
+  <p class="mast-disc mono" data-reveal style="--d:.2s">MASTER RECORD · THE LIMIT &amp; TERMS YOU SET HERE ARE READ BY THE STATEMENT OF ACCOUNT, THE COLLECTIONS QUEUE AND THE TRIP-SHEET BILLING DROPDOWN — EDIT ONCE, ENFORCED EVERYWHERE · AGING &amp; EXPOSURE COMPUTED FROM THE SAME LIVE LEDGER AS BILLING &amp; THE COCKPIT · FIGURES ILLUSTRATIVE</p>
+</main>
+
+<!-- edit / create drawer -->
+<div class="cl-scrim" id="clScrim"></div>
+<aside class="cl-drawer" id="clDrawer" aria-hidden="true">
+  <header class="cl-dh">
+    <div class="cl-dh-who">
+      <div class="cl-ava" id="dAva">—</div>
+      <div><p class="kicker" id="dKicker">CLIENT FILE</p><h3 id="dTitle">—</h3>
+        <span class="mono cl-dtrn" id="dTrn">—</span></div>
+    </div>
+    <button class="cl-dx" id="dClose">✕</button>
+  </header>
+  <div class="cl-db" id="dBody"></div>
+  <footer class="cl-df">
+    <span class="mono cl-df-note" id="dFoot">—</span>
+    <button class="btn btn-ghost" id="dCancel">CANCEL</button>
+    <button class="btn btn-acc" id="dSave">SAVE MASTER →</button>
+  </footer>
+</aside>
+
+<script src="/assets/js/data.js"></script>
+<script src="/assets/js/fmt.js"></script>
+<script src="/assets/js/fx.js"></script>
+<script src="/assets/js/auth.js"></script>
+<script src="/assets/js/shell.js"></script>
+<script src="/assets/js/clients.js"></script>
+<script>
+  document.getElementById('todayStr').textContent = new Intl.DateTimeFormat('en-GB',
+    { timeZone:'Asia/Dubai', weekday:'long', day:'2-digit', month:'long', year:'numeric' }).format(new Date()).toUpperCase();
+</script>
+</body>
+</html>
