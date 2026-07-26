@@ -1,0 +1,69 @@
+.gate{display:grid;grid-template-columns:1.12fr .88fr;min-height:100vh}
+
+/* left — night-side of the port */
+.gate-l{position:relative;display:flex;flex-direction:column;padding:0 44px;overflow:hidden;color:#C9DAD2;
+  background:
+    radial-gradient(800px 500px at 20% 0%,rgba(14,124,102,.22),transparent 60%),
+    radial-gradient(700px 500px at 100% 100%,rgba(255,90,31,.14),transparent 55%),
+    repeating-linear-gradient(0deg,transparent 0 27px,rgba(255,255,255,.03) 27px 28px),
+    repeating-linear-gradient(90deg,transparent 0 27px,rgba(255,255,255,.03) 27px 28px),
+    var(--ink)}
+.gate-l .hazard{margin:0 -44px}
+.g-brand{display:flex;align-items:center;gap:12px;padding:24px 0 6px}
+.g-brand svg{width:34px;height:34px}
+.g-brand b{font-size:26px;letter-spacing:.06em;color:var(--white);display:block;line-height:1}
+.g-brand small{display:block;font-size:8.5px;letter-spacing:.3em;color:#7FA396;margin-top:3px}
+.g-h{font-family:var(--display);font-weight:800;text-transform:uppercase;
+  font-size:clamp(46px,5.6vw,84px);line-height:.94;letter-spacing:.015em;color:var(--white);margin:26px 0 10px}
+.g-h em{font-style:normal;color:var(--acc)}
+.g-h .out{color:transparent;-webkit-text-stroke:1.5px #7E988E}
+.g-sub{font-size:14px;color:#93ABA1;max-width:48ch}
+
+.route{margin-top:32px;max-width:540px;border:1px solid rgba(255,255,255,.14);border-radius:var(--r);
+  background:rgba(255,255,255,.03);padding:14px 18px 6px}
+.route-h{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;
+  letter-spacing:.2em;color:#7FA396;margin-bottom:4px}
+.route svg{width:100%;height:auto}
+.route .dash{stroke:#5E7A70;stroke-width:1.6;fill:none;stroke-dasharray:6 7;animation:march 1.2s linear infinite}
+.route text{font-family:var(--mono);font-size:9px;fill:#7FA396;letter-spacing:.14em}
+@keyframes march{to{stroke-dashoffset:-13}}
+
+.g-stats{display:flex;margin-top:28px}
+.g-stats div{padding:4px 26px;border-left:1px solid rgba(255,255,255,.14)}
+.g-stats div:first-child{padding-left:0;border:0}
+.g-stats b{font-family:var(--display);font-size:30px;font-weight:700;color:var(--white);display:block;line-height:1}
+.g-stats span{font-family:var(--mono);font-size:9px;letter-spacing:.22em;color:#7FA396}
+.g-tick{margin-top:auto;margin-inline:-44px;background:rgba(0,0,0,.28);border-top:1px solid rgba(255,255,255,.12)}
+
+/* right — the gate pass */
+.gate-r{display:flex;align-items:center;justify-content:center;padding:40px 28px}
+.pass{width:min(400px,100%);background:var(--white);border:1.5px solid var(--ink);border-radius:var(--r);
+  box-shadow:10px 10px 0 rgba(12,22,27,.12);position:relative}
+.pass-rib{position:absolute;top:14px;right:-9px;background:var(--acc);color:var(--ink);font-family:var(--mono);
+  font-size:9px;letter-spacing:.18em;font-weight:600;padding:4px 10px;box-shadow:3px 3px 0 rgba(12,22,27,.25)}
+.pass-h{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1.5px dashed var(--line-2)}
+.pass-h .mono{font-size:10px;letter-spacing:.2em;color:var(--mut)}
+.pass-b{padding:22px 20px 18px}
+.pass-b h1{font-family:var(--display);font-size:36px;font-weight:800;letter-spacing:.03em;
+  text-transform:uppercase;line-height:1;margin-bottom:4px}
+.pass-b p{font-size:12.5px;color:var(--mut);margin-bottom:18px}
+.fld{margin-bottom:14px}
+.fld label{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;color:var(--steel);margin-bottom:5px}
+.fld select,.fld input{width:100%;padding:10px 12px;border:1px solid var(--line-2);border-radius:var(--r);
+  background:var(--card);font-size:14px;transition:border .2s,box-shadow .2s}
+.fld select:focus,.fld input:focus{border-color:var(--ink);box-shadow:3px 3px 0 rgba(12,22,27,.12);outline:none}
+.pass .btn{width:100%;justify-content:center;margin-top:6px}
+.pass-f{padding:14px 20px 18px;border-top:1.5px dashed var(--line-2)}
+.barcode{height:32px;background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 5px,
+  var(--ink) 5px 6px,transparent 6px 8px,var(--ink) 8px 11px,transparent 11px 13px,
+  var(--ink) 13px 14px,transparent 14px 18px)}
+.pass-f small{display:block;margin-top:8px;font-family:var(--mono);font-size:8.5px;
+  letter-spacing:.16em;color:var(--mut);text-align:center}
+
+@media(max-width:920px){
+  .gate{grid-template-columns:1fr}
+  .gate-l{padding:0 24px}
+  .gate-l .hazard,.g-tick{margin-inline:-24px}
+  .g-h{font-size:clamp(40px,10vw,60px)}
+  .g-stats div{padding:4px 14px}
+}
