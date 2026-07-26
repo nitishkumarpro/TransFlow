@@ -1,0 +1,69 @@
+/* buttons — stamped, industrial */
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;
+  letter-spacing:.14em;text-transform:uppercase;font-weight:600;padding:10px 16px;border-radius:var(--r);
+  border:1.5px solid var(--ink);transition:transform .15s var(--ease),box-shadow .15s var(--ease),background .2s}
+.btn-acc{background:var(--acc);color:var(--ink);box-shadow:4px 4px 0 var(--ink)}
+.btn-acc:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.btn-acc:active{transform:translate(1px,1px);box-shadow:2px 2px 0 var(--ink)}
+.btn-ghost{background:transparent;color:var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--white)}
+
+/* cards — container-casting index in corner */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);position:relative}
+.card::after{content:attr(data-idx);position:absolute;top:10px;right:14px;
+  font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--line-2)}
+.card-h{display:flex;align-items:center;gap:12px;padding:14px 18px 12px;border-bottom:1px solid var(--line)}
+.card-h h3{font-family:var(--display);font-weight:700;font-size:19px;letter-spacing:.05em;text-transform:uppercase}
+.card-b{padding:16px 18px}
+
+/* chips & statuses */
+.chip{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9.5px;
+  letter-spacing:.1em;padding:3px 8px;border-radius:3px;font-weight:600;width:max-content}
+.chip.up{background:var(--teal-soft);color:var(--teal-2)}
+.chip.dn{background:var(--red-soft);color:var(--red)}
+.chip.warn{background:var(--amber-soft);color:var(--amber)}
+.chip.mut{background:#E3E8E1;color:var(--steel)}
+.st{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;letter-spacing:.12em;font-weight:600}
+.st i{width:7px;height:7px;border-radius:50%}
+.st.ok{color:var(--teal-2)}   .st.ok i{background:var(--teal)}
+.st.run{color:var(--amber)}   .st.run i{background:var(--amber);animation:pulse 1.8s infinite}
+.st.wait{color:var(--steel)}  .st.wait i{background:var(--steel)}
+.st.wrk{color:var(--amber)}   .st.wrk i{background:var(--amber)}
+.st.bad{color:var(--red)}     .st.bad i{background:var(--red)}
+
+/* waybill tables */
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--mut);text-align:left;padding:9px 10px;border-bottom:2px solid var(--ink)}
+.tbl td{padding:9px 10px;border-bottom:1px dashed var(--line);font-size:13px;vertical-align:middle}
+.tbl tbody tr{transition:background .15s}
+.tbl tbody tr:hover{background:rgba(14,124,102,.06)}
+.tbl .r{text-align:right}
+.tbl .mono{font-size:12px}
+.tbl small{color:var(--mut);font-size:9px;letter-spacing:.08em}
+
+/* live ops ticker */
+.ticker{overflow:hidden;background:var(--ink);color:#BFD3CA;border-radius:var(--r)}
+.ticker-track{display:inline-flex;white-space:nowrap;padding:8px 0;animation:tick 32s linear infinite}
+.ticker:hover .ticker-track{animation-play-state:paused}
+.ticker-track span{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  padding:0 26px;border-right:1px solid rgba(255,255,255,.12)}
+.ticker-track b{color:var(--acc);font-weight:600}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* animated horizontal bars */
+.hb{margin-bottom:13px}
+.hb-t{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px}
+.hb-t b{font-size:11.5px}
+.hb-tr{height:10px;background:#E2E7E0;border-radius:2px;overflow:hidden}
+.hb-f{display:block;height:100%;width:0;transition:width 1s var(--ease)}
+.in .hb-f{width:var(--w)}
+.hb-s{font-size:9px;letter-spacing:.14em;color:var(--mut);margin-top:3px}
+
+/* charts */
+.cbar{transform-box:fill-box;transform-origin:50% 100%;transform:scaleY(0);
+  transition:transform .8s var(--ease) var(--d,0s)}
+.in .cbar{transform:scaleY(1)}
+.cht text{font-family:var(--mono);font-size:9px;fill:var(--mut);letter-spacing:.06em}
+.legend{display:flex;gap:16px;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--mut)}
+.legend i{display:inline-block;width:10px;height:10px;margin-right:5px;border-radius:2px}
